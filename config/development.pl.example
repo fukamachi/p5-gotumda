@@ -1,12 +1,12 @@
 +{
-    'DBI' => [
-        'dbi:SQLite:dbname=development.db',
-        '',
-        '',
-        +{
+    'Teng' => {
+        dsn => 'dbi:SQLite:dbname=development.db',
+        username => '',
+        password => '',
+        connect_options => +{
             sqlite_unicode => 1,
-        }
-    ],
+        },
+    },
     'Text::Xslate' => {
         path => ['tmpl/'],
     },
