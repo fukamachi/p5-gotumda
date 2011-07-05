@@ -34,7 +34,8 @@ use Text::Xslate;
                 path_info    => sub { Amon2->context()->req->path_info },
                 my_tasks_num => sub {
                     Amon2->context()->db->search_named(
-                        'SELECT COUNT(id) AS num FROM task WHERE owner_name = :user',
+                        'SELECT COUNT(id) AS num FROM task
+                         WHERE owner_name = :user AND is_done IS NULL',
                         { user => Amon2->context()->current_user->name }
                     )->next->num;
                 },
