@@ -3,3 +3,4 @@ deps.js
 *.pyc
 compiled.js
 *.db
+config/*.pl
