@@ -29,11 +29,11 @@ got.task.render = function(task, element) {
   taskEl.appendChild(
     goog.dom.createDom('div', 'profile-image',
                        goog.dom.createDom('img',
-                                          {'src': task['owner']['imageUrl'],
+                                          {'src': task['owner']['image_url'],
                                            'class': 'got-taskitem-owner'})));
   if (task['user']['name'] !== task['owner']['name']) {
     taskEl.appendChild(
-      goog.dom.createDom('img', {'src': task['user']['thumbnailUrl'],
+      goog.dom.createDom('img', {'src': task['user']['thumbnail_url'],
                                  'class': 'got-taskitem-user'})
     );
   }
@@ -55,13 +55,13 @@ got.task.render = function(task, element) {
   taskEl.appendChild(taskBodyEl);
 
   var taskDataEl = goog.dom.createDom('div', 'got-taskitem-data');
-  if (task['originTask']) {
+  if (task['origin_task']) {
     goog.dom.append(taskDataEl, 'from');
     taskDataEl.appendChild(
-      goog.dom.createDom('img', {'src': task['originTask']['user']['thumbnailUrl']})
+      goog.dom.createDom('img', {'src': task['origin_task']['user']['thumbnail_url']})
     );
     taskDataEl.appendChild(
-      goog.dom.createDom('span', null, task['originTask']['body'])
+      goog.dom.createDom('span', null, task['origin_task']['body'])
     );
   }
   taskEl.appendChild(taskDataEl);
@@ -91,7 +91,7 @@ got.task.renderLine = function(task, element) {
     goog.dom.createDom(
       'div', 'got-taskitem-body',
       goog.dom.createDom(
-        'img', {'src': task['user']['thumbnailUrl']}),
+        'img', {'src': task['user']['thumbnail_url']}),
       task['body']
     )
   );

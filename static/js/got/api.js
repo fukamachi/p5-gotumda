@@ -49,18 +49,12 @@ got.Api.prototype.projectTasks = function(project, callback) {
 
 /**
  * Request to 'api/update.json'.
- * @param {(String|Number)=} id
- * @param {String=} opt_body
- * @param {String=} opt_url
- * @param {Boolean=} opt_isDone
+ * @param {Object} params
  * @param {Function=} opt_callback
  */
-got.Api.prototype.update = function(id, opt_body, opt_isDone, opt_callback) {
+got.Api.prototype.update = function(params, opt_callback) {
   this.sendRequest('api/update.json', 'POST',
-                   {'id': id,
-                    'body': opt_body,
-                    'isDone': opt_isDone},
-                  opt_callback);
+                  params, opt_callback);
 };
 
 got.Api.prototype.copy = function(id, opt_callback) {

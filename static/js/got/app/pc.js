@@ -17,6 +17,7 @@ goog.require('goog.array');
 goog.require('goog.uri.utils');
 goog.require('goog.fx.DragListGroup');
 goog.require('goog.fx.DragListDirection');
+goog.require('goog.dom.forms');
 
 /**
  * Class for PC frontend.
@@ -97,7 +98,7 @@ got.app.PC.prototype.loadProjectTasks = function() {
 got.app.PC.prototype.onSubmit_ = function(e) {
   var form = e.target;
   var textarea = goog.dom.getElementsByTagNameAndClass('textarea', null, form)[0];
-  this.api_.update(null, textarea.value, null, function(res) {
+  this.api_.update(goog.dom.forms.getFormDataMap(form).toObject(), function(res) {
     got.task.render(res, 'got-public-tasks');
   });
   textarea.value = '';

@@ -28,6 +28,7 @@ use Text::Xslate;
             c => sub { Amon2->context() },
             uri_with => sub { Amon2->context()->req->uri_with(@_) },
             uri_for  => sub { Amon2->context()->uri_for(@_) },
+            path_info => sub { Amon2->context()->req->path_info },
         },
         %$view_conf
     });
@@ -46,6 +47,7 @@ __PACKAGE__->load_plugins(
             dir => File::Spec->tmpdir(),
         )
     },
+    'Web::JSON',
 );
 
 # for your security
