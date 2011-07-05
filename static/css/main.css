@@ -149,10 +149,10 @@ a.current {
 #got-post-button {
   border-radius: 12px;
   background-image:
-      url(/public/static/img/plus.png),
+      url(/static/img/plus.png),
       -webkit-gradient(linear, left top, left bottom, from(#fff), to(#eee));
   background-image:
-      url(/public/static/img/plus.png),
+      url(/static/img/plus.png),
       -moz-linear-gradient(top, #fff, #eee);
   background-repeat: no-repeat;
   background-position:5px 6px;

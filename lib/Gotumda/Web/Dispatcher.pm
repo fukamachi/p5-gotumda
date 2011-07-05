@@ -6,24 +6,24 @@ use Hatena::API::Auth;
 
 get '/' => sub {
     my ($c) = @_;
-    $c->render('index.tt');
+    $c->render( 'index.tt', { user => $c->session->get('user') } );
 };
 
 get '/project/:project' => sub {
     my ($c) = @_;
-    $c->render('project.tt');
+    $c->render( 'project.tt', { user => $c->session->get('user') } );
 };
 
 get '/tasks' => sub {
     my ($c) = @_;
-    $c->render('tasks.tt');
+    $c->render( 'tasks.tt', { user => $c->session->get('user') } );
 };
 
 any '/auth' => sub {
-    my ( $c, $args ) = @_;
+    my ($c) = @_;
     my $api = Hatena::API::Auth->new( $c->config->{'Hatena::API::Auth'} );
 
-    if ( my $cert = $args->{cert} ) {
+    if ( my $cert = $c->req->param('cert') ) {
         my $user = $api->login($cert)
             or die "Couldn't login: " . $api->errstr;
         $c->session->set( 'user' => $user );
