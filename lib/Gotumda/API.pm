@@ -33,6 +33,7 @@ __PACKAGE__->add_trigger(
     AFTER_DISPATCH => sub {
         my ( $c, $res ) = @_;
         $res->header( 'X-Content-Type-Options' => 'nosniff' );
+        $res->header( 'Content-Type' => 'application/json; charset=utf-8' );
     },
 );
 

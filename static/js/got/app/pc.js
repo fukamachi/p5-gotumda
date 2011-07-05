@@ -47,6 +47,9 @@ got.app.PC = function(baseUri) {
   if (goog.dom.getElement('got-project-tasks')) {
     this.loadProjectTasks();
   }
+  if (goog.dom.getElement('my-projects')) {
+    this.loadMyProjects();
+  }
 
   this.listenPostButton_();
 };
@@ -62,9 +65,6 @@ got.app.PC.prototype.loadPublicTasks = function() {
       goog.array.forEach(tasks, function(task) {
         got.task.render(task, element);
       });
-      var form = goog.dom.getElement('got-post-task');
-      goog.events.listen(form, goog.events.EventType.SUBMIT,
-                         this.onSubmit_, false, this);
       this.listenTaskAction_(element);
     }, this));
 };
@@ -95,11 +95,29 @@ got.app.PC.prototype.loadProjectTasks = function() {
   );
 };
 
+got.app.PC.prototype.loadMyProjects = function() {
+  this.api_.myProjects(function(projects) {
+    var element = goog.dom.getElement('my-projects');
+    element.innerHTML = '';
+    goog.array.forEach(projects, function(project) {
+      var a = goog.dom.createDom('a', {'href': '/project/'+project['project']}, '#'+project['project']);
+      if (project['project'] ===
+          goog.uri.utils.getPath(location.href).replace(/^\/project\//, '')) {
+        a.className = 'current';
+      }
+      a.appendChild(goog.dom.createDom('div', 'count', ''+project['num']));
+      element.appendChild(a);
+    });
+  });
+};
+
 got.app.PC.prototype.onSubmit_ = function(e) {
   var form = e.target;
   var textarea = goog.dom.getElementsByTagNameAndClass('textarea', null, form)[0];
   this.api_.update(goog.dom.forms.getFormDataMap(form).toObject(), function(res) {
-    got.task.render(res, 'got-public-tasks');
+    if (goog.dom.getElement('got-public-tasks')) {
+      got.task.render(res, 'got-public-tasks');
+    }
   });
   textarea.value = '';
 };
@@ -282,6 +300,10 @@ got.app.PC.prototype.listenPostButton_ = function() {
     goog.events.listen(document.body, goog.events.EventType.CLICK,
                        this.blurPostForm_, false, this);
   }, false, this);
+
+  goog.events.listen(goog.dom.getElement('got-post-task'),
+                     goog.events.EventType.SUBMIT,
+                     this.onSubmit_, false, this);
 };
 
 /**

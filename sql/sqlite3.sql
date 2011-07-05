@@ -23,3 +23,18 @@ CREATE TABLE watch_project (
     project varchar(255),
     FOREIGN KEY(user_name) REFERENCES user(name)
 );
+CREATE INDEX index_watch_project ON watch_project (user_name);
+
+CREATE TABLE task_project (
+    project varchar(255),
+    task_id INTEGER NOT NULL,
+    FOREIGN KEY(task_id) REFERENCES task(id)
+);
+CREATE INDEX index_task_project ON task_project(project);
+
+CREATE TABLE sort_order (
+    user_name varchar(64) NOT NULL,
+    sort_order varchar(255) NOT NULL DEFAULT "",
+    FOREIGN KEY(user_name) REFERENCES user(name)
+);
+CREATE INDEX index_sort_order ON sort_order(user_name);

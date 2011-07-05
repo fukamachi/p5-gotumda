@@ -21,7 +21,17 @@ table {
 
 table {
     name 'watch_project';
-    columns qw('user_name project');
+    columns qw(user_name project);
+};
+
+table {
+    name 'task_project';
+    columns qw(project task_id);
+};
+
+table {
+    name 'sort_order';
+    columns qw(user_name sort_order);
 };
 
 1;

@@ -7,7 +7,7 @@ get '/all-tasks.json' => sub {
     my ($c) = @_;
     my $iter = $c->db->search(
         task => {},
-        { order_by => { created_at => 'DESC' } },
+        { order_by => { created_at => 'ASC' } },
     );
 
     return $c->render_json( [ map { $_->to_hashref } $iter->all ] );
@@ -25,6 +25,9 @@ post '/update.json' => sub {
             owner_name => $user->name,
         }
     );
+
+    # FIXME: reduce throwing SQL.
+    $task->parse_body();
 
     return $c->render_json( $task->to_hashref );
 };
@@ -77,7 +80,22 @@ post '/sort-tasks.json' => sub {
 get '/my-projects.json' => sub {
     my ($c) = @_;
     my $iter = $c->db->search(
-        watch_project => { user_name => $c->current_user } );
+        watch_project => { user_name => $c->current_user->name } );
+
+    return $c->render_json( [ map { $_->to_hashref } $iter->all ] );
+};
+
+get '/project.json' => sub {
+    my ($c)     = @_;
+    my $project = $c->req->param('project');
+    my $iter    = $c->db->search_named(
+        'SELECT task.* FROM task_project
+         JOIN task ON task.id = task_project.task_id
+         WHERE task_project.project = :project
+         ORDER BY task.created_at ASC',
+        { project => $project },
+        'task'
+    );
 
     return $c->render_json( [ map { $_->to_hashref } $iter->all ] );
 };

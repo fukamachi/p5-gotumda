@@ -28,10 +28,16 @@ use Text::Xslate;
         +{  'syntax'   => 'TTerse',
             'module'   => ['Text::Xslate::Bridge::TT2Like'],
             'function' => {
-                c         => sub { Amon2->context() },
-                uri_with  => sub { Amon2->context()->req->uri_with(@_) },
-                uri_for   => sub { Amon2->context()->uri_for(@_) },
-                path_info => sub { Amon2->context()->req->path_info },
+                c            => sub { Amon2->context() },
+                uri_with     => sub { Amon2->context()->req->uri_with(@_) },
+                uri_for      => sub { Amon2->context()->uri_for(@_) },
+                path_info    => sub { Amon2->context()->req->path_info },
+                my_tasks_num => sub {
+                    Amon2->context()->db->search_named(
+                        'SELECT COUNT(id) AS num FROM task WHERE owner_name = :user',
+                        { user => Amon2->context()->current_user->name }
+                    )->next->num;
+                },
             },
             %$view_conf
         }
