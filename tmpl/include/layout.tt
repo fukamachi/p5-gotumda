@@ -4,11 +4,11 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>Welcome to Gotumda+!</title>
-  <meta http-equiv="Content-Style-Type" content="text/css" />  
-  <meta http-equiv="Content-Script-Type" content="text/javascript" />  
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"]]>
   <meta name="format-detection" content="telephone=no" />
-  <!--[if lt IE 8]><link rel="stylesheet" href="[% uri_for('/static/css/blueprint/ie.css') %]" type="text/css" media="screen, projection"><![endif]--> 
+  <!--[if lt IE 8]><link rel="stylesheet" href="[% uri_for('/static/css/blueprint/ie.css') %]" type="text/css" media="screen, projection"><![endif]-->
   <link rel="stylesheet" href="[% uri_for('/static/css/main.css') %]" type="text/css" media="screen, tv, print" charset="UTF-8" />
 </head>
 <body>
@@ -34,7 +34,7 @@
   goog.require('got.app.PC');
 </script>
 <script type="text/javascript">
-  new got.app.PC('[% uri_with() %]');
+  new got.app.PC('[% uri_for('/') %]');
 </script>
 </body>
 </html>

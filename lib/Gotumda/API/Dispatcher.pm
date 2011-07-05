@@ -21,12 +21,65 @@ post '/update.json' => sub {
     my $task = $c->db->insert(
         task => {
             body       => $c->req->param('body'),
-            user_name  => $user->name,              # TODO
-            owner_name => $user->name,              # TODO
+            user_name  => $user->name,
+            owner_name => $user->name,
         }
     );
 
     return $c->render_json( $task->to_hashref );
+};
+
+get '/my-tasks.json' => sub {
+    my ($c) = @_;
+    my $iter
+        = $c->db->search( task => { owner_name => $c->current_user->name } );
+
+    return $c->render_json( [ map { $_->to_hashref } $iter->all ] );
+};
+
+post '/destroy.json' => sub {
+    my ($c) = @_;
+    die("'id' is a required parameter.") unless $c->req->param('id');
+    $c->db->delete( task => { id => $c->req->param('id') } );
+};
+
+post '/move.json' => sub {
+    my ($c) = @_;
+    die("'id' is a required parameter.") unless $c->req->param('id');
+    my $task = $c->db->single( task => { id => $c->req->param('id') } );
+    $task->update( { owner_name => $c->current_user->name } );
+
+    return $c->render_json( $task->to_hashref );
+};
+
+post '/copy.json' => sub {
+    my ($c) = @_;
+    die("'id' is a required parameter.") unless $c->req->param('id');
+    my $task = $c->db->single( task => { id => $c->req->param('id') } );
+
+    my $new_task = $c->db->insert(
+        task => {
+            body           => $task->body,
+            user_name      => $c->current_user,
+            owner_name     => $c->current_user,
+            origin_task_id => $task->id,
+            is_done        => $task->is_done,
+        }
+    );
+
+    return $c->render_json( $new_task->to_hashref );
+};
+
+post '/sort-tasks.json' => sub {
+    my ($c) = @_;
+};
+
+get '/my-projects.json' => sub {
+    my ($c) = @_;
+    my $iter = $c->db->search(
+        watch_project => { user_name => $c->current_user } );
+
+    return $c->render_json( [ map { $_->to_hashref } $iter->all ] );
 };
 
 1;
