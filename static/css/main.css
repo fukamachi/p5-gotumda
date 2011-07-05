@@ -1,23 +1,275 @@
-header {
-    height: 50px;
-    font-size: 36px;
-    padding: 2px;
-    text-align: center; }
-    header a {
-        color: black;
-        font-weight: bold;
-        text-decoration: none; }
+@charset "UTF-8";
 
-footer {
-    text-align: right;
-    padding-right: 10px;
-    padding-top: 2px; }
-    footer a {
-        text-decoration: none;
-        color: black;
-        font-weight: bold;
-    }
+body {
+  line-height: 150%;
+  font-family: "Optima", "Nu Sans", Baskerville, "Times New Roman", "Arial", sans-serif;
+  text-align: center;
+}
 
-/* smart phones */
-@media screen and (max-device-width: 480px) {
+.cursor-move {
+  cursor: move;
+  text-align: left;
+  background-color: #eee;
+  border: 1px solid #ccc !important;
+}
+
+.dragging {
+  opacity: 0.4;
+}
+
+a:link {
+  color: #005585;
+}
+
+a:visited {
+  color: #485270;
+}
+
+a:hover {
+  color: #b83800;
+}
+
+#container {
+  margin: 0 auto;
+  width: 800px;
+  text-align: left;
+}
+
+h2 {
+  font-size: 14pt;
+  clear: both;
+}
+
+/**
+ * Header
+ **/
+
+#header {
+  background: -webkit-gradient(linear, left top, left bottom, from(#666), to(#000));
+  background: -moz-linear-gradient(top, #666, #000);
+  position: relative;
+  padding: 1px 1px;
+  margin-bottom: 5px;
+  height: 40px;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.4);
+}
+
+#header h1 {
+  margin: 10px 15px;
+  font-size: large;
+  float: left;
+  text-shadow: -1px -1px gray;
+}
+
+#header h1 a {
+  text-decoration: none;
+  color: white;
+}
+
+#login-user {
+  float: right;
+  margin: 10px 10px 0 0;
+}
+
+#login-user a {
+  color: white;
+  text-decoration: none;
+}
+
+/**
+ * Content
+ **/
+
+#content {
+  height: 800px;
+  background-color: white;
+  position: relative;
+}
+
+#content-left {
+  float: left;
+  background-color: rgb(228,236,246);
+  border: 1px solid rgb(177,197,218);
+  width: 188px;
+  height: 100%;
+  padding: 15px 0 0;
+  margin-left: 5px;
+}
+
+#content-left a {
+  display: block;
+  font-size: 12px;
+  text-decoration: none;
+  padding-left: 8px;
+  cursor: pointer;
+  position: relative;
+}
+
+#content-left a:hover {
+  color: black;
+  background-color: rgb(177,197,218);
+}
+
+a.current {
+  color: black;
+  text-decoration: none;
+  background-color: white;
+  font-weight: bold;
+  border-top: 1px solid rgb(177,197,218);
+  border-bottom: 1px solid rgb(177,197,218);
+  width: 181px;
+}
+
+#content-left a .count {
+  width: 25px;
+  border-radius: 8px;
+  color: white;
+  background-color: #bbb;
+  text-align: center;
+  position: absolute;
+  top: 3px;
+  right: 8px;
+  font-size: small;
+  line-height: 130%;
+  padding-top: 1px;
+}
+
+#content-left a:hover .count {
+  background-color: white;
+  color: rgb(177,197,218);
+}
+
+#content-right {
+  float: left;
+  width: 530px;
+  height: 100%;
+  padding: 10px 0 0 40px;
+}
+
+#got-post-button {
+  border-radius: 12px;
+  background-image:
+      url(/public/static/img/plus.png),
+      -webkit-gradient(linear, left top, left bottom, from(#fff), to(#eee));
+  background-image:
+      url(/public/static/img/plus.png),
+      -moz-linear-gradient(top, #fff, #eee);
+  background-repeat: no-repeat;
+  background-position:5px 6px;
+  padding: 2px 24px;
+  border: 1px solid #ddd;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#got-post-task {
+  text-align: right;
+}
+
+#got-post-task textarea {
+  width: 95%;
+  height: 30px;
+}
+
+#got-post-task input {
+  margin-right: 20px;
+  width: 60px;
+  height: 25px;
+  box-shadow: none;
+  background-color: #eee;
+  border-radius: 4px;
+  border-style: solid;
+  border-width: 1px;
+  cursor: pointer;
+}
+
+#got-public-tasks {
+  margin-top: 15px;
+  clear: both;
+}
+
+#got-my-tasks {
+  clear: both;
+}
+
+/**
+ * Task
+ */
+
+.got-taskitem {
+  clear: both;
+  position: relative;
+  height: 70px;
+  border-bottom: 1px solid #eee;
+  padding: 8px 0;
+}
+
+.got-taskitemline {
+  clear: both;
+  height: 20px;
+  padding: 4px;
+  border: 1px solid white;
+}
+
+.got-taskitem img.got-taskitem-owner {
+  float: left;
+}
+
+.got-taskitem img.got-taskitem-user {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.got-taskitem .got-taskitem-body {
+  height: 70px;
+  float: left;
+}
+.got-taskitemline .got-taskitem-body {
+  width: 360px;
+  float: left;
+}
+
+.got-taskitem .got-taskitem-owner {
+  color: #888;
+  font-size: small;
+}
+
+.got-taskitem-done {
+  float: left;
+}
+
+.got-taskitemline img {
+  float: left;
+}
+
+.got-taskitem-action {
+  position: absolute;
+  top: 25px;
+  right: 10px;
+  font-size: x-small;
+}
+
+.got-taskitem-action a {
+  padding: 3px;
+  cursor: pointer;
+}
+
+.got-taskitem-data {
+  color: #888;
+  font-size: x-small;
+  position: absolute;
+  bottom: 10px;
+  left: 70px;
+}
+
+.got-taskitem-data img {
+  vertical-align: middle;
+}
+
+.profile-image {
+  width: 64px;
+  height: 64px;
+  text-align: center;
+  float: left;
 }

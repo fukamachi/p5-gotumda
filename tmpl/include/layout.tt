@@ -1,32 +1,43 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja">
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>[% title || 'Gotumda' %]</title>
-    <meta http-equiv="Content-Style-Type" content="text/css" />  
-    <meta http-equiv="Content-Script-Type" content="text/javascript" />  
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"]]>
-    <meta name="format-detection" content="telephone=no" />
-    <link href="[% uri_for('/static/css/blueprint/screen.css') %]" rel="stylesheet" type="text/css" media="screen" />
-    <link href="[% uri_for('/static/css/blueprint/print.css') %]" rel="stylesheet" type="text/css" media="print" />
-    <!--[if lt IE 8]><link rel="stylesheet" href="[% uri_for('/static/css/blueprint/ie.css') %]" type="text/css" media="screen, projection"><![endif]--> 
-    <link href="[% uri_for('/static/css/main.css') %]" rel="stylesheet" type="text/css" media="screen" />
-    <script src="[% uri_for('/static/js/jquery-1.5.1.min.js') %]"></script>
-    <!--[if lt IE 9]>
-        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>Welcome to Gotumda+!</title>
+  <meta http-equiv="Content-Style-Type" content="text/css" />  
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />  
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"]]>
+  <meta name="format-detection" content="telephone=no" />
+  <link href="[% uri_for('/static/css/blueprint/screen.css') %]" rel="stylesheet" type="text/css" media="screen" />
+  <link href="[% uri_for('/static/css/blueprint/print.css') %]" rel="stylesheet" type="text/css" media="print" />
+  <!--[if lt IE 8]><link rel="stylesheet" href="[% uri_for('/static/css/blueprint/ie.css') %]" type="text/css" media="screen, projection"><![endif]--> 
+  <link rel="stylesheet" href="[% uri_for('/static/css/main.css') %]" type="text/css" media="screen, tv, print" charset="UTF-8" />
 </head>
-<body[% IF bodyID %] class="[% bodyID %]"[% END %]>
-    <div class="container">
-        <header>
-            <a href="[% uri_for('/') %]">Gotumda</a>
-        </header>
-        <div id="main">
-            [% content %]
-        </div>
-        <footer>
-            Powered by <a href="http://amon.64p.org/">Amon2</a>
-        </footer>
-    </div>
+<body>
+<div id="container">
+
+[% INCLUDE 'include/header.tt' %]
+
+<div id="content">
+  <div id="content-left">
+    <a href="/">Timeline</a>
+    <a href="/tasks">My Tasks</a>
+  </div>
+  <div id="content-right">
+    [% INCLUDE 'include/post-form.tt' %]
+    [% content %]
+  </div>
+</div>
+
+</div>
+
+<script type="text/javascript" src="[% uri_for('/static/js/closure-library/closure/goog/base.js') %]"></script>
+<script type="text/javascript" src="[% uri_for('/static/js/deps.js') %]"></script>
+<script type="text/javascript">
+  goog.require('got.app.PC');
+</script>
+<script type="text/javascript">
+  //new got.app.PC('');
+</script>
 </body>
 </html>
