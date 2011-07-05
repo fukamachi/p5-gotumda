@@ -8,6 +8,10 @@
         }
     ],
     'Text::Xslate' => {
-      path => ['tmpl/'],
+        path => ['tmpl/'],
+    },
+    'Hatena::API::Auth' => {
+        api_key => "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        secret => "xxxxxxxxxxxxxxxx",
     },
 };

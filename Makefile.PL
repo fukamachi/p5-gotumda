@@ -11,6 +11,7 @@ WriteMakefile(
         'Plack::Middleware::ReverseProxy' => '0.09',
         'HTML::FillInForm::Lite'          => '1.09',
         'Time::Piece'                     => '1.20',
+        map { $_ => 0 } (qw(SQL::Maker Hatena::API::Auth)),
     },
     MIN_PERL_VERSION => '5.008001',
     (-d 'xt' and $ENV{AUTOMATED_TESTING} || $ENV{RELEASE_TESTING}) ? (

@@ -1,0 +1,5 @@
+Makefile
+deps.js
+*.pyc
+compiled.js
+*.db
