@@ -6,6 +6,7 @@
  * @author e.arrows@gmail.com (Eitarow Fukamachi)
  */
 
+goog.provide('got.app.pc');
 goog.provide('got.app.PC');
 
 goog.require('got.Api');
@@ -18,6 +19,11 @@ goog.require('goog.uri.utils');
 goog.require('goog.fx.DragListGroup');
 goog.require('goog.fx.DragListDirection');
 goog.require('goog.dom.forms');
+goog.require('goog.dom.classes');
+
+got.app.pc.getProject_ = function() {
+  return goog.uri.utils.getPath(location.href).replace(/^\/project\//, '');
+};
 
 /**
  * Class for PC frontend.
@@ -53,13 +59,12 @@ got.app.PC = function(baseUri) {
   if (goog.dom.getElement('watch-button')) {
     var element = goog.dom.getElement('watch-button');
     goog.events.listen(element, goog.events.EventType.MOUSEUP, function(e) {
-      // throw a request
-      if (element.innerHTML === 'Watch') {
-        element.innerHTML = 'Unwatch';
-      } else {
-        element.innerHTML = 'Watch';
-      }
-    });
+      var isWatch = goog.dom.classes.toggle(element, 'watching');
+      element.innerHTML = isWatch ? 'Unwatch' : 'Watch';
+      this.api_.watchProject(
+        got.app.pc.getProject_(),
+        isWatch);
+    }, false, this);
   }
 
   this.listenPostButton_();
@@ -95,7 +100,7 @@ got.app.PC.prototype.loadMyTasks = function() {
 
 got.app.PC.prototype.loadProjectTasks = function() {
   this.api_.projectTasks(
-    goog.uri.utils.getPath(location.href).replace(/^\/project\//, ''),
+    got.app.pc.getProject_(),
     goog.bind(function(tasks) {
       var element = goog.dom.getElement('got-project-tasks');
       element.innerHTML = '';
@@ -112,8 +117,7 @@ got.app.PC.prototype.loadMyProjects = function() {
     element.innerHTML = '';
     goog.array.forEach(projects, function(project) {
       var a = goog.dom.createDom('a', {'href': '/project/'+project['project']}, '#'+project['project']);
-      if (project['project'] ===
-          goog.uri.utils.getPath(location.href).replace(/^\/project\//, '')) {
+      if (project['project'] === got.app.pc.getProject_()) {
         a.className = 'current';
       }
       a.appendChild(goog.dom.createDom('div', 'count', ''+project['num']));

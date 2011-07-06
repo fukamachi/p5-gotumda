@@ -114,4 +114,24 @@ get '/project.json' => sub {
     return $c->render_json( [ map { $_->to_hashref } $iter->all ] );
 };
 
+post '/watch-project.json' => sub {
+    my ($c) = @_;
+
+    return $c->bad_request('Authorization required.') unless $c->current_user;
+
+    my $meth
+        = $c->req->param('is_watch') eq 'true'
+        ? 'find_or_create'
+        : 'delete';
+
+    $c->db->$meth(
+        watch_project => {
+            user_name => $c->current_user->name,
+            project   => $c->req->param('project')
+        }
+    );
+
+    return $c->no_content();
+};
+
 1;

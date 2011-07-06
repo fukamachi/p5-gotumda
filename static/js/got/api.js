@@ -81,6 +81,11 @@ got.Api.prototype.sortTasks = function(order) {
   this.sendRequest('api/sort-tasks.json', 'POST', {'order': order.json(',')});
 };
 
+got.Api.prototype.watchProject = function(project, isWatch) {
+  this.sendRequest('api/watch-project.json', 'POST',
+                   {'project': project, 'is_watch': isWatch});
+};
+
 /**
  * General function to throw a HTTP request through RESTful API.
  * @param {String} uri

@@ -2,7 +2,7 @@
 
 <h2>
   Project #[% project %]
-  <a id="watch-button" class="button">[% IF watching %]Unwatch[% ELSE %]Watch[% END %]</a>
+  <a id="watch-button" class="button[% IF watching %] watching[% END %]">[% IF watching %]Unwatch[% ELSE %]Watch[% END %]</a>
 </h2>
 <div id="got-project-tasks">
   Loading..
