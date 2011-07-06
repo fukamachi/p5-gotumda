@@ -38,3 +38,15 @@ CREATE TABLE sort_order (
     FOREIGN KEY(user_name) REFERENCES user(name)
 );
 CREATE INDEX index_sort_order ON sort_order(user_name);
+
+CREATE TRIGGER delete_task_project
+AFTER DELETE ON task FOR EACH ROW
+BEGIN
+  DELETE FROM task_project WHERE OLD.id = task_project.task_id;
+END;
+
+CREATE TRIGGER update_task_project
+BEFORE UPDATE OF body ON task FOR EACH ROW
+BEGIN
+  DELETE FROM task_project WHERE OLD.id = task_project.task_id;
+END;

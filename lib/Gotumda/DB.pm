@@ -24,10 +24,6 @@ sub _parse_task_project {
 
     my @projects = ( $body =~ /(?<=#)(\w+)/g );
 
-    if (@projects) {
-        $c->db->delete( task_project => { task_id => $id } );
-    }
-
     for my $project (@projects) {
         $c->db->fast_insert(
             task_project => {
@@ -48,18 +44,20 @@ around [qw(insert fast_insert update)] => sub {
 
     return $result unless $table_name eq 'task';
 
-    my $id;
-    if ( ref $result ) {
-        $id = $result->id;
-    }
-    elsif ( exists $row_data->{id} ) {
-        $id = $row_data->{id};
-    }
-    else {
-        $id = $result;
-    }
+    if ( exists $row_data->{body} ) {
+        my $id;
+        if ( ref $result ) {
+            $id = $result->id;
+        }
+        elsif ( exists $row_data->{id} ) {
+            $id = $row_data->{id};
+        }
+        else {
+            $id = $result;
+        }
 
-    _parse_task_project( $id, $row_data->{body} );
+        _parse_task_project( $id, $row_data->{body} );
+    }
 
     return $result;
 };
