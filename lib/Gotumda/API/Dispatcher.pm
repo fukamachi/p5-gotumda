@@ -15,14 +15,14 @@ get '/all-tasks.json' => sub {
 
 post '/update.json' => sub {
     my ($c) = @_;
-    my $user = $c->current_user;
-    $c->redirect('/auth') unless $user;
+
+    return $c->redirect('/auth') unless $c->current_user;
 
     my $task = $c->db->insert(
         task => {
             body       => $c->req->param('body'),
-            user_name  => $user->name,
-            owner_name => $user->name,
+            user_name  => $c->current_user->name,
+            owner_name => $c->current_user->name,
         }
     );
 
@@ -31,6 +31,9 @@ post '/update.json' => sub {
 
 get '/my-tasks.json' => sub {
     my ($c) = @_;
+
+    return $c->bad_request('Authorization required.') unless $c->current_user;
+
     my $iter
         = $c->db->search( task => { owner_name => $c->current_user->name } );
 
@@ -39,12 +42,18 @@ get '/my-tasks.json' => sub {
 
 post '/destroy.json' => sub {
     my ($c) = @_;
+
+    return $c->bad_request('Authorization required.') unless $c->current_user;
+
     die("'id' is a required parameter.") unless $c->req->param('id');
     $c->db->delete( task => { id => $c->req->param('id') } );
 };
 
 post '/move.json' => sub {
     my ($c) = @_;
+
+    return $c->bad_request('Authorization required.') unless $c->current_user;
+
     die("'id' is a required parameter.") unless $c->req->param('id');
     my $task = $c->db->single( task => { id => $c->req->param('id') } );
     $task->update( { owner_name => $c->current_user->name } );
@@ -54,6 +63,9 @@ post '/move.json' => sub {
 
 post '/copy.json' => sub {
     my ($c) = @_;
+
+    return $c->bad_request('Authorization required.') unless $c->current_user;
+
     die("'id' is a required parameter.") unless $c->req->param('id');
     my $task = $c->db->single( task => { id => $c->req->param('id') } );
 
@@ -72,10 +84,15 @@ post '/copy.json' => sub {
 
 post '/sort-tasks.json' => sub {
     my ($c) = @_;
+
+    return $c->bad_request('Authorization required.') unless $c->current_user;
 };
 
 get '/my-projects.json' => sub {
     my ($c) = @_;
+
+    return $c->bad_request('Authorization required.') unless $c->current_user;
+
     my $iter = $c->db->search(
         watch_project => { user_name => $c->current_user->name } );
 

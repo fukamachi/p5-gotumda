@@ -46,4 +46,20 @@ __PACKAGE__->add_trigger(
     },
 );
 
+sub no_content {
+    my ($c) = @_;
+    my $res = $c->render_json( {} );
+    $res->code(204);
+
+    return $res;
+}
+
+sub bad_request {
+    my ( $c, $message ) = @_;
+    my $res = $c->render_json( { "error" => $message } );
+    $res->code(400);
+
+    return $res;
+}
+
 1;
