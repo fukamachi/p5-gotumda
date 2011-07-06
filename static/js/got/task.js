@@ -31,14 +31,15 @@ got.task.render = function(task, element) {
                        goog.dom.createDom('img',
                                           {'src': task['owner']['image_url'],
                                            'class': 'got-taskitem-owner'})));
+  var taskOwnerEl = goog.dom.createDom('div', 'got-taskitem-owner');
   if (task['user']['name'] !== task['owner']['name']) {
     taskEl.appendChild(
       goog.dom.createDom('img', {'src': task['user']['thumbnail_url'],
                                  'class': 'got-taskitem-user'})
     );
+    taskOwnerEl.innerHTML = task['user']['name'] + ' => ';
   }
-
-  var taskOwnerEl = goog.dom.createDom('div', 'got-taskitem-owner', task['owner']['name']);
+  taskOwnerEl.innerHTML += task['owner']['name'];
   taskEl.appendChild(taskOwnerEl);
 
   var taskBodyEl = goog.dom.createDom('div', 'got-taskitem-body');
