@@ -67,8 +67,8 @@ got.task.render = function(task, element) {
   }
   taskEl.appendChild(taskDataEl);
 
-  var copyEl = goog.dom.createDom('a', null, 'Copy');
-  var passEl = goog.dom.createDom('a', null, 'PassMe');
+  var copyEl = goog.dom.createDom('a', 'button', goog.dom.createDom('img', {'src': '/static/img/copy.png'}));
+  var passEl = goog.dom.createDom('a', 'button', goog.dom.createDom('img', {'src': '/static/img/get.png'}));
   var taskActionEl = goog.dom.createDom(
     'div', 'got-taskitem-action',
     copyEl, passEl
