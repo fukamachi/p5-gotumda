@@ -50,6 +50,17 @@ got.app.PC = function(baseUri) {
   if (goog.dom.getElement('my-projects')) {
     this.loadMyProjects();
   }
+  if (goog.dom.getElement('watch-button')) {
+    var element = goog.dom.getElement('watch-button');
+    goog.events.listen(element, goog.events.EventType.MOUSEUP, function(e) {
+      // throw a request
+      if (element.innerHTML === 'Watch') {
+        element.innerHTML = 'Unwatch';
+      } else {
+        element.innerHTML = 'Watch';
+      }
+    });
+  }
 
   this.listenPostButton_();
 };

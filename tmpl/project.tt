@@ -1,6 +1,9 @@
 [% WRAPPER 'include/layout.tt' %]
 
-<h2>Project</h2>
+<h2>
+  Project #[% project %]
+  <a id="watch-button" class="button">[% IF watching %]Unwatch[% ELSE %]Watch[% END %]</a>
+</h2>
 <div id="got-project-tasks">
   Loading..
 </div>

@@ -9,9 +9,22 @@ get '/' => sub {
     $c->render('index.tt');
 };
 
-get '/project/:project' => sub {
-    my ($c) = @_;
-    $c->render('project.tt');
+get '/project/{project}' => sub {
+    my ( $c, $args ) = @_;
+
+    return $c->render(
+        'project.tt',
+        {   project  => $args->{'project'},
+            watching => !!(
+                $c->current_user && $c->db->single(
+                    watch_project => {
+                        user_name => $c->current_user->name,
+                        project   => $args->{'project'}
+                    }
+                )
+            )
+        }
+    );
 };
 
 get '/tasks' => sub {
