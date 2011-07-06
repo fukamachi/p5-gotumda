@@ -274,14 +274,14 @@ got.app.PC.prototype.listenTaskAction_ = function(element) {
     goog.events.listen(
       actionEl.childNodes[0], goog.events.EventType.CLICK,
       function(e) {
-        this.api_.copy(task['taskId'], function(res) {
+        this.api_.copy(task['id'], function(res) {
           got.task.render(res, 'got-public-tasks');
         });
       }, false, this);
     goog.events.listen(
       actionEl.childNodes[1], goog.events.EventType.CLICK,
       function(e) {
-        this.api_.move(task['taskId'], function(res) {
+        this.api_.move(task['id'], function(res) {
           goog.dom.removeNode(task);
           got.task.render(res, 'got-public-tasks');
         });

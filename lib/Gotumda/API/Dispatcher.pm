@@ -60,8 +60,8 @@ post '/copy.json' => sub {
     my $new_task = $c->db->insert(
         task => {
             body           => $task->body,
-            user_name      => $c->current_user,
-            owner_name     => $c->current_user,
+            user_name      => $c->current_user->name,
+            owner_name     => $c->current_user->name,
             origin_task_id => $task->id,
             is_done        => $task->is_done,
         }
