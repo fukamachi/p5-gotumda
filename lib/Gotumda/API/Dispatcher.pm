@@ -26,9 +26,6 @@ post '/update.json' => sub {
         }
     );
 
-    # FIXME: reduce throwing SQL.
-    $task->parse_body();
-
     return $c->render_json( $task->to_hashref );
 };
 

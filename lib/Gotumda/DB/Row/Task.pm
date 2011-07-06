@@ -28,30 +28,4 @@ sub to_hashref {
     };
 }
 
-# FIXME: this don't have to be called when the body isn't modified.
-sub parse_body {
-    my ($self) = @_;
-
-    my @projects = ( $self->body =~ /(?<=#)(\w+)/g );
-
-    my $c = Amon2->context();
-
-    # flush current data.
-    if (@projects) {
-        $c->db->delete( task_project => { task_id => $self->id } );
-    }
-
-    for my $project (@projects) {
-        $c->db->fast_insert(
-            task_project => { project => $project, task_id => $self->id } );
-        $c->db->find_or_create( watch_project =>
-                { user_name => $self->user_name, project => $project } );
-    }
-
-    if ( my ($owner_name) = ( $self->body =~ /(?<=@)(\w+)/g ) ) {
-        $self->update( { owner_name => $owner_name } );
-        $self->owner_name($owner_name);
-    }
-}
-
 1;
