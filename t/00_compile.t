@@ -13,6 +13,7 @@ use_ok $_ for qw(
     Gotumda::DB::Row::Task
     Gotumda::DB::Row::User
     Gotumda::DB::Row::WatchProject
+    Gotumda::DB::Row::SortOrder
 );
 
 done_testing;

@@ -34,16 +34,22 @@ get '/my-tasks.json' => sub {
 
     return $c->bad_request('Authorization required.') unless $c->current_user;
 
-    my $iter
-        = $c->db->search( task => { owner_name => $c->current_user->name } );
+    my @tasks
+        = $c->db->search( task => { owner_name => $c->current_user->name } )
+        ->all;
 
-    return $c->render_json( [ map { $_->to_hashref } $iter->all ] );
+    my $order = $c->db->find_or_create(
+        sort_order => { user_name => $c->current_user->name } );
+
+    return $c->render_json(
+        [ map { $_->to_hashref } $order->sort_tasks( \@tasks ) ] );
 };
 
 post '/destroy.json' => sub {
     my ($c) = @_;
 
-    return $c->bad_request('Authorization required.') unless $c->current_user;
+    return $c->bad_request('Authorization required.')
+        unless $c->current_user;
 
     die("'id' is a required parameter.") unless $c->req->param('id');
     $c->db->delete( task => { id => $c->req->param('id') } );
@@ -52,7 +58,8 @@ post '/destroy.json' => sub {
 post '/move.json' => sub {
     my ($c) = @_;
 
-    return $c->bad_request('Authorization required.') unless $c->current_user;
+    return $c->bad_request('Authorization required.')
+        unless $c->current_user;
 
     die("'id' is a required parameter.") unless $c->req->param('id');
     my $task = $c->db->single( task => { id => $c->req->param('id') } );
@@ -64,7 +71,8 @@ post '/move.json' => sub {
 post '/copy.json' => sub {
     my ($c) = @_;
 
-    return $c->bad_request('Authorization required.') unless $c->current_user;
+    return $c->bad_request('Authorization required.')
+        unless $c->current_user;
 
     die("'id' is a required parameter.") unless $c->req->param('id');
     my $task = $c->db->single( task => { id => $c->req->param('id') } );
@@ -85,13 +93,22 @@ post '/copy.json' => sub {
 post '/sort-tasks.json' => sub {
     my ($c) = @_;
 
-    return $c->bad_request('Authorization required.') unless $c->current_user;
+    return $c->bad_request('Authorization required.')
+        unless $c->current_user;
+
+    my $order = $c->db->find_or_create(
+        sort_order => { user_name => $c->current_user->name } );
+
+    $order->update( { sort_order => $c->req->param('sort_order') } );
+
+    return $c->no_content;
 };
 
 get '/my-projects.json' => sub {
     my ($c) = @_;
 
-    return $c->bad_request('Authorization required.') unless $c->current_user;
+    return $c->bad_request('Authorization required.')
+        unless $c->current_user;
 
     my $iter = $c->db->search(
         watch_project => { user_name => $c->current_user->name } );
@@ -117,7 +134,8 @@ get '/project.json' => sub {
 post '/watch-project.json' => sub {
     my ($c) = @_;
 
-    return $c->bad_request('Authorization required.') unless $c->current_user;
+    return $c->bad_request('Authorization required.')
+        unless $c->current_user;
 
     my $meth
         = $c->req->param('is_watch') eq 'true'
@@ -131,7 +149,7 @@ post '/watch-project.json' => sub {
         }
     );
 
-    return $c->no_content();
+    return $c->no_content;
 };
 
 1;

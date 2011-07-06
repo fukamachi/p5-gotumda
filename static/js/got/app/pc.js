@@ -143,10 +143,10 @@ got.app.PC.prototype.onSubmit_ = function(e) {
  * @protected
  */
 got.app.PC.prototype.onDragEnd_ = function(e) {
-  var checkboxes
-      = goog.dom.getElementsByClass('got-taskitem-done', this.taskListEl_);
-  this.api_.sortTasks(goog.array.map(checkboxes, function(box) {
-    return box.value;
+  var taskEls
+      = goog.dom.getElementsByClass('got-taskitemline', this.taskListEl_);
+  this.api_.sortTasks(goog.array.map(taskEls, function(el) {
+    return el['id'];
   }));
 };
 

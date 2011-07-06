@@ -97,5 +97,7 @@ got.task.renderLine = function(task, element) {
     )
   );
 
+  taskEl['id'] = task['id'];
+
   goog.dom.insertChildAt(element, taskEl, 0);
 };

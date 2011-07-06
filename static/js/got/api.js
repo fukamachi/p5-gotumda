@@ -78,7 +78,7 @@ got.Api.prototype.destroy = function(id) {
  * @param {Array.<Integer>} order
  */
 got.Api.prototype.sortTasks = function(order) {
-  this.sendRequest('api/sort-tasks.json', 'POST', {'order': order.json(',')});
+  this.sendRequest('api/sort-tasks.json', 'POST', {'sort_order': order.join(',')});
 };
 
 got.Api.prototype.watchProject = function(project, isWatch) {
