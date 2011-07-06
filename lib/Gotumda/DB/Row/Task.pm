@@ -6,9 +6,11 @@ use parent 'Teng::Row';
 sub to_hashref {
     my ($self) = @_;
 
-    my $c     = Amon2->context();
-    my $user  = $c->db->single( user => { name => $self->user_name } );
-    my $owner = $c->db->single( user => { name => $self->owner_name } );
+    my $c           = Amon2->context();
+    my $user        = $c->db->single( user => { name => $self->user_name } );
+    my $owner       = $c->db->single( user => { name => $self->owner_name } );
+    my $origin_task = ( $self->origin_task_id
+            && $c->db->single( task => { id => $self->origin_task_id } ) );
 
     return +{
         id   => $self->id,
@@ -23,8 +25,9 @@ sub to_hashref {
             image_url     => '/static/img/no-image.gif',
             thumbnail_url => '/static/img/no-image-s.gif',
         },
-        is_done    => $self->is_done,
-        created_at => $self->created_at->epoch,
+        origin_task => $origin_task && $origin_task->to_hashref,
+        is_done     => $self->is_done,
+        created_at  => $self->created_at->epoch,
     };
 }
 
