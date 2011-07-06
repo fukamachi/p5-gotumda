@@ -5,7 +5,7 @@ use Mouse;
 __PACKAGE__->load_plugin('FindOrCreate');
 __PACKAGE__->load_plugin('Count');
 
-around [qw(insert fast_insert update)] => sub {
+around [qw(insert update)] => sub {
     my ( $orig, $self, $table_name, $row_data, $other ) = @_;
 
     if ( $table_name eq 'task' and exists $row_data->{body} ) {
@@ -37,7 +37,7 @@ sub _parse_task_project {
     }
 }
 
-around [qw(insert fast_insert update)] => sub {
+around [qw(insert update)] => sub {
     my ( $orig, $self, $table_name, $row_data, $other ) = @_;
 
     my $result = $self->$orig( $table_name, $row_data, $other );

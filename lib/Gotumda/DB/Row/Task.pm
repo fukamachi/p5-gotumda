@@ -31,4 +31,22 @@ sub to_hashref {
     };
 }
 
+sub copy {
+    my ($self) = @_;
+
+    my $c = Amon2->context();
+
+    my $id = $c->db->fast_insert(
+        task => {
+            body           => $self->body,
+            user_name      => $c->current_user->name,
+            owner_name     => $c->current_user->name,
+            origin_task_id => $self->id,
+            is_done        => $self->is_done,
+        }
+    );
+
+    return $c->db->single( task => { id => $id } );
+}
+
 1;

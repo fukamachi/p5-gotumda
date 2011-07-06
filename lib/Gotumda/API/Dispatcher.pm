@@ -77,15 +77,7 @@ post '/copy.json' => sub {
     die("'id' is a required parameter.") unless $c->req->param('id');
     my $task = $c->db->single( task => { id => $c->req->param('id') } );
 
-    my $new_task = $c->db->insert(
-        task => {
-            body           => $task->body,
-            user_name      => $c->current_user->name,
-            owner_name     => $c->current_user->name,
-            origin_task_id => $task->id,
-            is_done        => $task->is_done,
-        }
-    );
+    my $new_task = $task->copy();
 
     return $c->render_json( $new_task->to_hashref );
 };
