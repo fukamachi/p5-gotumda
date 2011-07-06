@@ -1,4 +1,4 @@
-[% IF user %]
+[% IF current_user() %]
 <div id="got-post-button">
   Add a new task
 </div>

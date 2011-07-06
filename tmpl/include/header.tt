@@ -1,9 +1,9 @@
 <div id="header">
   <h1><a href="/">Gotumda+</a></h1>
   <div id="login-user">
-    [% IF user %]
-      <img src="[% user.thumbnail_url %]" />
-      <a href="http://www.hatena.ne.jp/[% user.name %]">[% user.name %]</a>
+    [% IF current_user() %]
+      <img src="[% current_user().thumbnail_url %]" />
+      <a href="http://www.hatena.ne.jp/[% current_user().name %]">[% current_user().name %]</a>
     [% ELSE %]
       <a href="/auth"><img src="[% uri_for('/static/img/login-hatena.png') %]" alt="Login with Hatena" height="20px"/></a>
     [% END %]

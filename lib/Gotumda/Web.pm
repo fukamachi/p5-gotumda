@@ -33,12 +33,15 @@ use Text::Xslate;
                 uri_for      => sub { Amon2->context()->uri_for(@_) },
                 path_info    => sub { Amon2->context()->req->path_info },
                 my_tasks_num => sub {
-                    Amon2->context()->db->search_named(
-                        'SELECT COUNT(id) AS num FROM task
-                         WHERE owner_name = :user AND is_done IS NULL',
-                        { user => Amon2->context()->current_user->name }
-                    )->next->num;
+                    Amon2->context()->db->count(
+                        'task', 'id',
+                        {   owner_name =>
+                                Amon2->context()->current_user->name,
+                            is_done => undef,
+                        }
+                    );
                 },
+                current_user => sub { Amon2->context()->current_user },
             },
             %$view_conf
         }

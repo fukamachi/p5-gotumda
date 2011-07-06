@@ -6,17 +6,17 @@ use Hatena::API::Auth;
 
 get '/' => sub {
     my ($c) = @_;
-    $c->render( 'index.tt', { user => $c->current_user } );
+    $c->render('index.tt');
 };
 
 get '/project/:project' => sub {
     my ($c) = @_;
-    $c->render( 'project.tt', { user => $c->current_user } );
+    $c->render('project.tt');
 };
 
 get '/tasks' => sub {
     my ($c) = @_;
-    $c->render( 'tasks.tt', { user => $c->current_user } );
+    $c->render('tasks.tt');
 };
 
 any '/auth' => sub {
