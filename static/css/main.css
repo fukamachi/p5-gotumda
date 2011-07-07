@@ -192,6 +192,12 @@ a.current {
   clear: both;
 }
 
+#got-done-tasks {
+  font-size: x-small;
+  color: gray;
+  padding: 5px 15px;
+}
+
 /**
  * Task
  */
@@ -228,6 +234,10 @@ a.current {
 .got-taskitemline .got-taskitem-body {
   width: 503px;
   float: left;
+}
+
+#got-done-tasks .got-taskitemline .got-taskitem-body {
+  width: 473px;
 }
 
 .got-taskitem .got-taskitem-owner {

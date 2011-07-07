@@ -83,12 +83,16 @@ got.task.render = function(task, element) {
 got.task.renderLine = function(task, element) {
   element = goog.dom.getElement(element);
 
+  var checkEl = goog.dom.createDom('input',
+                                   {'class': 'got-taskitem-done',
+                                    'type': 'checkbox'});
+  if (task['is_done']) {
+    checkEl.checked = true;
+  }
+
   var taskEl = goog.dom.createDom(
     'div', 'got-taskitemline',
-    goog.dom.createDom(
-      'input',
-      {'class': 'got-taskitem-done', 'type': 'checkbox'}
-    ),
+    checkEl,
     goog.dom.createDom(
       'div', 'got-taskitem-body',
       goog.dom.createDom(

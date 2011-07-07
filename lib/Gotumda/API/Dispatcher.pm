@@ -18,13 +18,30 @@ post '/update.json' => sub {
 
     return $c->redirect('/auth') unless $c->current_user;
 
-    my $task = $c->db->insert(
-        task => {
-            body       => $c->req->param('body'),
-            user_name  => $c->current_user->name,
-            owner_name => $c->current_user->name,
-        }
-    );
+    my $task;
+    if ( $c->req->param('id') ) {
+        $task = $c->db->single( task => { id => $c->req->param('id') } );
+
+        return $c->bad_request('Invalid task id') unless $task;
+
+        my %params;
+        $params{id}      = $c->req->param('id');
+        $params{body}    = $c->req->param('body') if $c->req->param('body');
+        $params{is_done} = $c->req->param('is_done')
+            if $c->req->param('is_done');
+
+        $task->update( \%params );
+    }
+    else {
+        $task = $c->db->insert(
+            task => {
+                body       => $c->req->param('body'),
+                user_name  => $c->current_user->name,
+                owner_name => $c->current_user->name,
+                is_done    => $c->req->param('is_done'),
+            }
+        );
+    }
 
     return $c->render_json( $task->to_hashref );
 };
@@ -32,7 +49,8 @@ post '/update.json' => sub {
 get '/my-tasks.json' => sub {
     my ($c) = @_;
 
-    return $c->bad_request('Authorization required.') unless $c->current_user;
+    return $c->bad_request('Authorization required.')
+        unless $c->current_user;
 
     my @tasks
         = $c->db->search( task => { owner_name => $c->current_user->name } )
@@ -51,8 +69,12 @@ post '/destroy.json' => sub {
     return $c->bad_request('Authorization required.')
         unless $c->current_user;
 
-    die("'id' is a required parameter.") unless $c->req->param('id');
+    return $c->bad_request("'id' is a required parameter")
+        unless $c->req->param('id');
+
     $c->db->delete( task => { id => $c->req->param('id') } );
+
+    return $c->no_content;
 };
 
 post '/move.json' => sub {
@@ -61,7 +83,9 @@ post '/move.json' => sub {
     return $c->bad_request('Authorization required.')
         unless $c->current_user;
 
-    die("'id' is a required parameter.") unless $c->req->param('id');
+    return $c->bad_request("'id' is a required parameter")
+        unless $c->req->param('id');
+
     my $task = $c->db->single( task => { id => $c->req->param('id') } );
     $task->update( { owner_name => $c->current_user->name } );
 
@@ -74,7 +98,9 @@ post '/copy.json' => sub {
     return $c->bad_request('Authorization required.')
         unless $c->current_user;
 
-    die("'id' is a required parameter.") unless $c->req->param('id');
+    return $c->bad_request("'id' is a required parameter")
+        unless $c->req->param('id');
+
     my $task = $c->db->single( task => { id => $c->req->param('id') } );
 
     my $new_task = $task->copy();

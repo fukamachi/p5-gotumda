@@ -88,12 +88,18 @@ got.app.PC.prototype.loadPublicTasks = function() {
 got.app.PC.prototype.loadMyTasks = function() {
   this.api_.myTasks(
     goog.bind(function(tasks) {
-      var element = goog.dom.getElement('got-my-tasks');
-      element.innerHTML = '';
+      var curEl = goog.dom.getElement('got-my-tasks');
+      var doneEl = goog.dom.getElement('got-done-tasks');
+      curEl.innerHTML = '';
       goog.array.forEach(tasks, function(task) {
-        got.task.renderLine(task, element);
+        if (task['is_done']) {
+          got.task.renderLine(task, doneEl);
+        } else {
+          got.task.renderLine(task, curEl);
+        }
       });
-      this.listenDragEvents_(element);
+      this.listenDragEvents_(curEl);
+      this.listenCheckEvents_(curEl);
     }, this)
   );
 };
@@ -203,7 +209,7 @@ got.app.PC.prototype.listenDragEvents_ = function(element) {
  */
 got.app.PC.prototype.onCheck_ = function(e) {
   var checkEl = e.target;
-  var taskEl = goog.dom.getAncestorByClass(checkEl, 'got-taskitem');
+  var taskEl = goog.dom.getAncestorByClass(checkEl, 'got-taskitemline');
   goog.dom.removeNode(taskEl);
   if (checkEl.checked) {
     goog.events.unlisten(taskEl, goog.events.EventType.MOUSEOVER,
@@ -213,14 +219,12 @@ got.app.PC.prototype.onCheck_ = function(e) {
   } else {
     goog.events.listen(taskEl, goog.events.EventType.MOUSEOVER,
                        this.dlg_.handleDragItemMouseover_, false, this.dlg_);
-    var curTaskListEl = goog.dom.getElement('got-current-tasks');
+    var curTaskListEl = goog.dom.getElement('got-my-tasks');
     curTaskListEl.appendChild(taskEl);
   }
   this.api_.update(
-    checkEl.value, null, null, checkEl.checked
+    {'id': taskEl['id'], 'is_done': checkEl.checked}
   );
-  goog.style.showElement(
-    goog.dom.getElementByClass('got-taskitem-action', taskEl), false);
 };
 
 /**
