@@ -177,4 +177,21 @@ post '/watch-project.json' => sub {
     return $c->no_content;
 };
 
+post '/task-comment.json' => sub {
+    my ($c) = @_;
+
+    return $c->bad_request('Authorization required.')
+        unless $c->current_user;
+
+    my $comment = $c->db->insert(
+        task_comment => {
+            task_id   => $c->req->param('task_id'),
+            body      => $c->req->param('body'),
+            user_name => $c->current_user->name,
+        }
+    );
+
+    return $c->render_json( $comment->to_hashref );
+};
+
 1;

@@ -86,6 +86,10 @@ got.Api.prototype.watchProject = function(project, isWatch) {
                    {'project': project, 'is_watch': isWatch});
 };
 
+got.Api.prototype.taskComment = function(params, opt_callback) {
+  this.sendRequest('api/task-comment.json', 'POST', params, opt_callback);
+};
+
 /**
  * General function to throw a HTTP request through RESTful API.
  * @param {String} uri
