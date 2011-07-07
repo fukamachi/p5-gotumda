@@ -12,6 +12,7 @@ goog.require('goog.dom');
 goog.require('goog.json');
 goog.require('goog.array');
 goog.require('got.tmpl.task');
+goog.require('goog.string');
 
 /**
  * Render this task into the specified element.
@@ -29,7 +30,7 @@ got.task.render = function(task, element) {
     {'id': task['id'],
      'user_name': task['user']['name'],
      'owner_name': task['owner']['name'],
-     'body': task['body'],
+     'body': got.task.parseBody_(task['body']),
      'owner_image_url': task['owner']['image_url'],
      'user_thumbnail_url': task['user']['thumbnail_url']}
   );
@@ -48,4 +49,14 @@ got.task.renderLine = function(task, element) {
   );
 
   element.innerHTML = taskHtml + element.innerHTML;
+};
+
+/**
+ * @param {String} body
+ * @private
+ */
+got.task.parseBody_ = function(body) {
+  return goog.string.htmlEscape(body)
+      .replace(/#(\w+)/, '<a href="/project/$1">#$1</a>')
+      .replace(/@(\w+)/, '<a href="/$1/tasks">@$1</a>');
 };
