@@ -13,8 +13,6 @@ CREATE TABLE task (
     is_done BOOLEAN,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY(user_name) REFERENCES user(name),
-    FOREIGN KEY(owner_name) REFERENCES user(name),
     FOREIGN KEY(origin_task_id) REFERENCES task(id)
 );
 CREATE INDEX index_task_on_owner_name ON task (owner_name);
