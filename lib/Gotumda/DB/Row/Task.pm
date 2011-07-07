@@ -3,8 +3,6 @@ use warnings;
 use strict;
 use parent 'Teng::Row';
 
-use aliased 'Gotumda::DB::Row::User';
-
 sub to_hashref {
     my ( $self, %params ) = @_;
 
@@ -17,10 +15,12 @@ sub to_hashref {
             && $c->db->single( task => { id => $self->origin_task_id } ) );
 
     my $result = {
-        id          => $self->id,
-        body        => Encode::decode( 'utf8', $self->body ),
-        user        => User::to_hashref( $user || $self->user_name ),
-        owner       => User::to_hashref( $owner || $self->owner_name ),
+        id   => $self->id,
+        body => Encode::decode( 'utf8', $self->body ),
+        user =>
+            Gotumda::DB::Row::User::to_hashref( $user || $self->user_name ),
+        owner =>
+            Gotumda::DB::Row::User::to_hashref( $owner || $self->owner_name ),
         origin_task => $origin_task
             && $origin_task->to_hashref( with_comments => 0 ),
         is_done    => $self->is_done,
