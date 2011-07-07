@@ -36,6 +36,9 @@ sub copy {
 
     my $c = Amon2->context();
 
+    # NOTE: Why `fast_insert', not just `insert'?
+    #   Because `insert' may modify the owner_name automatically.
+    #   See Gotumda::DB for detail.
     my $id = $c->db->fast_insert(
         task => {
             body           => $self->body,
