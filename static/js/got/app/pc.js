@@ -25,6 +25,12 @@ got.app.pc.getProject_ = function() {
   return goog.uri.utils.getPath(location.href).replace(/^\/project\//, '');
 };
 
+got.app.pc.getUser_ = function() {
+  var res = goog.uri.utils.getPath(location.href).match(/^\/?(.*)\/tasks$/, '');
+
+  return res && res[1];
+};
+
 /**
  * Class for PC frontend.
  * @param {String} baseUri
@@ -47,8 +53,8 @@ got.app.PC = function(baseUri) {
   if (goog.dom.getElement('got-public-tasks')) {
     this.loadPublicTasks();
   }
-  if (goog.dom.getElement('got-my-tasks')) {
-    this.loadMyTasks();
+  if (goog.dom.getElement('got-task-list')) {
+    this.loadTasks();
   }
   if (goog.dom.getElement('got-project-tasks')) {
     this.loadProjectTasks();
@@ -87,10 +93,11 @@ got.app.PC.prototype.loadPublicTasks = function() {
     }, this));
 };
 
-got.app.PC.prototype.loadMyTasks = function() {
-  this.api_.myTasks(
+got.app.PC.prototype.loadTasks = function() {
+  this.api_.tasks(
+    got.app.pc.getUser_(),
     goog.bind(function(tasks) {
-      var curEl = goog.dom.getElement('got-my-tasks');
+      var curEl = goog.dom.getElement('got-current-tasks');
       var doneEl = goog.dom.getElement('got-done-tasks');
       curEl.innerHTML = '';
       goog.array.forEach(tasks, function(task) {

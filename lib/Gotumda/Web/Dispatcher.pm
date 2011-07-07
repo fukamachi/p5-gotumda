@@ -27,12 +27,20 @@ get '/project/{project}' => sub {
     );
 };
 
+get '/{user}/tasks' => sub {
+    my ( $c, $args ) = @_;
+
+    return $c->redirect('/tasks') if $args->{user} eq $c->current_user->name;
+
+    $c->render( 'tasks.tt', { user => $args->{user} } );
+};
+
 get '/tasks' => sub {
     my ($c) = @_;
 
     return $c->redirect('/auth') unless $c->current_user;
 
-    $c->render('tasks.tt');
+    $c->render( 'tasks.tt', { user => $c->current_user->name } );
 };
 
 any '/auth' => sub {

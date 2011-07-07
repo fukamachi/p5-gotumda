@@ -50,22 +50,22 @@ post '/update.json' => sub {
     return $c->render_json( $task->to_hashref );
 };
 
-get '/my-tasks.json' => sub {
+get '/tasks.json' => sub {
     my ($c) = @_;
 
-    return $c->bad_request('Authorization required.')
-        unless $c->current_user;
+    my $user_name = $c->req->param('user') || $c->current_user->name;
 
-    my @tasks
-        = $c->db->search( task => { owner_name => $c->current_user->name } )
-        ->all;
+    return $c->redirect('/auth') unless $user_name;
 
-    my $order = $c->db->find_or_create(
-        sort_order => { user_name => $c->current_user->name } );
+    my @tasks = $c->db->search( task => { owner_name => $user_name } )->all;
+
+    return $c->render_json( [] ) unless @tasks;
+
+    my $order = $c->db->single( sort_order => { user_name => $user_name } );
 
     return $c->render_json(
         [   map { $_->to_hashref( with_comments => 0 ) }
-                $order->sort_tasks( \@tasks )
+                $order ? $order->sort_tasks( \@tasks ) : @tasks
         ]
     );
 };
