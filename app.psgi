@@ -36,7 +36,7 @@ system(
     <<CMD
     python $js_dir/closure-library/closure/bin/build/depswriter.py\\
     --root_with_prefix='$js_dir/got ../../../got'\\
-    --output_file=$js_dir/deps.js
+    --output_file=$js_dir/gotdeps.js
 CMD
 );
 
