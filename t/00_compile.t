@@ -11,6 +11,7 @@ use_ok $_ for qw(
     Gotumda::DB
     Gotumda::DB::Schema
     Gotumda::DB::Row::Task
+    Gotumda::DB::Row::TaskComment
     Gotumda::DB::Row::User
     Gotumda::DB::Row::WatchProject
     Gotumda::DB::Row::SortOrder
