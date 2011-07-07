@@ -1,4 +1,5 @@
 www:
   type: perl
 db:
-  type: sqlite3
+  type: mysql
+
