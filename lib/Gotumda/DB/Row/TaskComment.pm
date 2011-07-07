@@ -12,7 +12,9 @@ sub to_hashref {
     return +{
         id      => $self->id,
         task_id => $self->task_id,
-        body    => Encode::decode( 'utf8', $self->body ),
+        body    => utf8::is_utf8( $self->body )
+        ? $self->body
+        : Encode::decode( 'utf8', $self->body ),
         user =>
             Gotumda::DB::Row::User::to_hashref( $user || $self->user_name ),
         created_at => $self->created_at->epoch,
