@@ -37,6 +37,7 @@
 </div>
 <script type="text/javascript" src="[% uri_for('/static/js/closure-library/closure/goog/base.js') %]"></script>
 <script type="text/javascript" src="[% uri_for('/static/js/deps.js') %]"></script>
+<script type="text/javascript" src="[% uri_for('/static/js/soy.js') %]"></script>
 <script type="text/javascript">
   goog.require('got.app.PC');
 </script>
