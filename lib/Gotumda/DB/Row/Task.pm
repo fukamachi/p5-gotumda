@@ -6,7 +6,9 @@ use parent 'Teng::Row';
 use aliased 'Gotumda::DB::Row::User';
 
 sub to_hashref {
-    my ($self) = @_;
+    my ( $self, %params ) = @_;
+
+    $params{with_comments} = 1 unless exists $params{with_comments};
 
     my $c           = Amon2->context();
     my $user        = $c->db->single( user => { name => $self->user_name } );
@@ -14,16 +16,27 @@ sub to_hashref {
     my $origin_task = ( $self->origin_task_id
             && $c->db->single( task => { id => $self->origin_task_id } ) );
 
-    return +{
+    my $result = {
         id          => $self->id,
         body        => Encode::decode( 'utf8', $self->body ),
         user        => User::to_hashref( $user || $self->user_name ),
         owner       => User::to_hashref( $owner || $self->owner_name ),
-        origin_task => $origin_task && $origin_task->to_hashref,
-        is_done     => $self->is_done,
-        created_at  => $self->created_at->epoch,
-        updated_at  => $self->updated_at->epoch,
+        origin_task => $origin_task
+            && $origin_task->to_hashref( with_comments => 0 ),
+        is_done    => $self->is_done,
+        created_at => $self->created_at->epoch,
+        updated_at => $self->updated_at->epoch,
     };
+
+    if ( $params{with_comments} ) {
+        my $iter = $c->db->search(
+            task_comment => { task_id => $self->id },
+            { order_by => { created_at => 'ASC' } }
+        );
+        $result->{comments} = [ map { $_->to_hashref } $iter->all ];
+    }
+
+    return $result;
 }
 
 sub copy {

@@ -64,7 +64,10 @@ get '/my-tasks.json' => sub {
         sort_order => { user_name => $c->current_user->name } );
 
     return $c->render_json(
-        [ map { $_->to_hashref } $order->sort_tasks( \@tasks ) ] );
+        [   map { $_->to_hashref( with_comments => 0 ) }
+                $order->sort_tasks( \@tasks )
+        ]
+    );
 };
 
 post '/destroy.json' => sub {
