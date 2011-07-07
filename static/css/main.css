@@ -4,6 +4,7 @@ body {
   line-height: 150%;
   font-family: "Optima", "Nu Sans", Baskerville, "Times New Roman", "Arial", sans-serif;
   text-align: center;
+  margin-top: 20px;
 }
 
 .cursor-move {
@@ -48,15 +49,15 @@ h2 {
   background: -webkit-gradient(linear, left top, left bottom, from(#666), to(#000));
   background: -moz-linear-gradient(top, #666, #000);
   position: relative;
-  padding: 1px 1px;
-  margin-bottom: 5px;
+  padding: 20px;
+  margin-bottom: 8px;
   height: 40px;
   box-shadow: 2px 0 5px rgba(0,0,0,0.4);
 }
 
 #header h1 {
   margin: 10px 15px;
-  font-size: large;
+  font-size: 20pt;
   float: left;
   text-shadow: -1px -1px gray;
 }
@@ -92,8 +93,8 @@ h2 {
   border: 1px solid rgb(177,197,218);
   width: 188px;
   height: 100%;
-  padding: 15px 0 0;
-  margin-left: 5px;
+  padding: 25px 0 0;
+  margin-left: 10px;
 }
 
 #content-left a {
@@ -143,7 +144,7 @@ a.current {
   float: left;
   width: 530px;
   height: 100%;
-  padding: 10px 0 0 40px;
+  padding: 15px 0 0 35px;
 }
 
 #got-post-button {
@@ -160,6 +161,7 @@ a.current {
   border: 1px solid #ddd;
   font-weight: bold;
   cursor: pointer;
+  margin-bottom: 20px;
 }
 
 #got-post-task {
