@@ -8,4 +8,4 @@ gotdeps.js
 compiled.js
 *.db
 config/*.pl
-static/js/got/tmpl/*.js
+#static/js/got/tmpl/*.js
