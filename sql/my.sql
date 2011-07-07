@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS task (
     owner_name varchar(64),
     origin_task_id INTEGER,
     is_done BOOLEAN,
-    created_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP,
     FOREIGN KEY(origin_task_id) REFERENCES task(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS task_comment (
     task_id INTEGER NOT NULL,
     body varchar(255) NOT NULL,
     user_name varchar(64),
-    created_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP,
     FOREIGN KEY(task_id) REFERENCES task(id),
     FOREIGN KEY(user_name) REFERENCES user(name)
