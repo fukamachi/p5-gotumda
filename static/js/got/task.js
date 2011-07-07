@@ -42,6 +42,7 @@ got.task.renderLine = function(task, element) {
 
   var taskHtml = got.tmpl.task.renderLine(
     {'id': task['id'],
+     'body': task['body'],
      'is_done': task['is_done'],
      'user_thumbnail_url': task['user']['thumbnail_url']}
   );
