@@ -67,7 +67,9 @@ got.app.PC = function(baseUri) {
     }, false, this);
   }
 
-  this.listenPostButton_();
+  if (goog.dom.getElement('got-post-button')) {
+    this.listenPostButton_();
+  }
 };
 
 /**
