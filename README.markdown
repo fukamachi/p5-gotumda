@@ -2,19 +2,19 @@
 
 ## Setup
 
-1. Build and install dependencies.
+### 1. Build and install dependencies.
 
     $ perl Makefile.PL
     $ make
 
-2. Modify configuration
+### 2. Modify configuration
 
 As Gotumda+ uses Hatena::API to authorize users, you have to get your own API key from [Hatena::API::Auth](http://auth.hatena.ne.jp/) and set it to `config/development.pl`.
 
     $ cp config/development.pl.example config/development.pl
     $ vi config/development.pl
 
-3. Database
+### 3. Database
 
 Make sure a SQLite3 database is in the application root directory before starting an application.
 
@@ -22,7 +22,7 @@ Make sure a SQLite3 database is in the application root directory before startin
 
 Of course you can use MySQL instead if you want. Then you change the configuration of "Teng" in `config/development.pl`, create a database, and execute all sql in `sql/my.sql` and `sql/trigger.sql`.
 
-4. Run
+### 4. Run
 
     $ plackup app.psgi
 
