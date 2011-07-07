@@ -22,6 +22,16 @@ table {
 };
 
 table {
+    name 'task_comment';
+    pk 'id';
+    columns qw(id task_id body user_name created_at updated_at);
+    inflate created_at => sub { Time::Piece->new(shift) };
+    deflate created_at => sub { Time::Piece->new(shift)->epoch };
+    inflate updated_at => sub { Time::Piece->new(shift) };
+    deflate updated_at => sub { Time::Piece->new(shift)->epoch };
+};
+
+table {
     name 'watch_project';
     columns qw(user_name project);
 };
