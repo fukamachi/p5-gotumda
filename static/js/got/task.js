@@ -31,6 +31,7 @@ got.task.render = function(task, element) {
      'user_name': task['user']['name'],
      'owner_name': task['owner']['name'],
      'body': got.task.parseBody_(task['body']),
+     'is_done': task['is_done'],
      'owner_image_url': task['owner']['image_url'],
      'user_thumbnail_url': task['user']['thumbnail_url']}
   );

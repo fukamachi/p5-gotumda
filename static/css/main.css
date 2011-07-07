@@ -219,6 +219,15 @@ a.current {
   border: 1px solid white;
 }
 
+.done-task {
+  background-color: #eee;
+  color: #888;
+}
+
+.got-taskitem .profile-image {
+  margin: 0 8px 0 5px;
+}
+
 .got-taskitem img.got-taskitem-owner {
   float: left;
 }
