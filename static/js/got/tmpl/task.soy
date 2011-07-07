@@ -31,14 +31,15 @@
     <div class="got-taskitem-body">
       {$body|noAutoescape}
     </div>
-    {if not $is_done}
-      <div class="got-taskitem-manage">
-        <a>Edit</a>
-        <a>Delete</a>
-        <a>Comment</a>
-        <input class="got-taskitem-comment" type="text" style="display: none;" />
-      </div>
-    {/if}
+    <div class="got-taskitem-manage">
+      <a class="task-edit">Edit</a>
+      <a class="task-delete">Delete</a>
+      <a class="task-comment">Comment</a>
+      <form class="got-taskitem-comment" onsubmit="return false;" style="display: none;">
+        <input type="hidden" name="task_id" value="{$id}" />
+        <input type="text" name="body" />
+      </form>
+    </div>
   </div>
   <div class="got-taskitem-action">
     <a class="button"><img src="/static/img/copy.png" /></a>

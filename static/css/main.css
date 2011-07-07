@@ -304,7 +304,7 @@ a.current {
   color: #b83800;
 }
 
-.got-taskitem-manage input.got-taskitem-comment {
+.got-taskitem-manage .got-taskitem-comment input {
   border: 1px solid rgb(228,236,246);
   width: 300px;
 }

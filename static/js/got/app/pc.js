@@ -90,6 +90,7 @@ got.app.PC.prototype.loadPublicTasks = function() {
         got.task.render(task, element);
       });
       this.listenTaskAction_(element);
+      this.listenCommentEvents_(element);
     }, this));
 };
 
@@ -247,6 +248,27 @@ got.app.PC.prototype.listenCheckEvents_ = function(element) {
   goog.array.forEach(checkboxes, function(checkEl) {
     goog.events.listen(checkEl, goog.events.EventType.CLICK,
                        this.onCheck_ , false, this);
+  }, this);
+};
+
+got.app.PC.prototype.listenCommentEvents_ = function(element) {
+  element = goog.dom.getElement(element);
+  var commentLinkEls = goog.dom.getElementsByClass('task-comment', element);
+  goog.array.forEach(commentLinkEls, function(el) {
+    var commentFormEl = goog.dom.getElementByClass('got-taskitem-comment', el.parentNode);
+    goog.events.listen(el, goog.events.EventType.CLICK, function(e) {
+      goog.style.showElement(commentFormEl, true);
+      commentFormEl.body.focus();
+    });
+  });
+  var commentFormEls = goog.dom.getElementsByClass('got-taskitem-comment', element);
+  goog.array.forEach(commentFormEls, function(el) {
+    goog.events.listen(el, goog.events.EventType.SUBMIT, function(e) {
+      this.api_.taskComment(goog.dom.forms.getFormDataMap(el).toObject(), function(comment) {
+        el.body.value = '';
+        goog.style.showElement(el, false);
+      });
+    }, false, this);
   }, this);
 };
 
