@@ -256,6 +256,11 @@ a.current {
   font-size: small;
 }
 
+.got-taskitem .got-taskitem-owner a {
+  color: #888;
+  text-decoration: none;
+}
+
 .got-taskitem-done {
   float: left;
 }
