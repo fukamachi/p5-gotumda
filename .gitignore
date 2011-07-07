@@ -7,5 +7,6 @@ gotdeps.js
 *.pyc
 compiled.js
 *.db
-config/*.pl
+config/development.pl
+config/deployment.pl
 #static/js/got/tmpl/*.js
