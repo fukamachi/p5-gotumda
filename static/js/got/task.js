@@ -40,25 +40,11 @@ got.task.render = function(task, element) {
 got.task.renderLine = function(task, element) {
   element = goog.dom.getElement(element);
 
-  var checkEl = goog.dom.createDom('input',
-                                   {'class': 'got-taskitem-done',
-                                    'type': 'checkbox'});
-  if (task['is_done']) {
-    checkEl.checked = true;
-  }
-
-  var taskEl = goog.dom.createDom(
-    'div', 'got-taskitemline',
-    checkEl,
-    goog.dom.createDom(
-      'div', 'got-taskitem-body',
-      goog.dom.createDom(
-        'img', {'src': task['user']['thumbnail_url']}),
-      task['body']
-    )
+  var taskHtml = got.tmpl.renderLine(
+    {'id': task['id'],
+     'is_done': task['is_done'],
+     'user_thumbnail_url': task['user']['thumbnail_url']}
   );
 
-  taskEl['id'] = task['id'];
-
-  goog.dom.insertChildAt(element, taskEl, 0);
+  element.innerHTML = taskHtml + element.innerHTML;
 };

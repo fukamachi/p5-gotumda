@@ -32,3 +32,19 @@
   </div>
 </div>
 {/template}
+
+/**
+ * @param id
+ * @param body
+ * @param is_done
+ * @param user_thumbnail_url
+ */
+{template .renderLine}
+<div id="{$id}" class="got-taskitemline">
+  <input class="got-taskitem-done" type="checkbox"{if $is_done} checked="true"{/if} />
+  <div class="got-taskitem-body">
+    <img src="{$user_thumbnail_url}" />
+    {$body}
+  </div>
+</div>
+{/template}
