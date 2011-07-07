@@ -40,7 +40,7 @@ got.task.render = function(task, element) {
 got.task.renderLine = function(task, element) {
   element = goog.dom.getElement(element);
 
-  var taskHtml = got.tmpl.renderLine(
+  var taskHtml = got.tmpl.task.renderLine(
     {'id': task['id'],
      'is_done': task['is_done'],
      'user_thumbnail_url': task['user']['thumbnail_url']}
