@@ -108,7 +108,7 @@ got.app.PC.prototype.loadTasks = function() {
         }
       });
       this.listenDragEvents_(curEl);
-      this.listenCheckEvents_(curEl);
+      this.listenCheckEvents_('got-task-list');
     }, this)
   );
 };
@@ -228,7 +228,7 @@ got.app.PC.prototype.onCheck_ = function(e) {
   } else {
     goog.events.listen(taskEl, goog.events.EventType.MOUSEOVER,
                        this.dlg_.handleDragItemMouseover_, false, this.dlg_);
-    var curTaskListEl = goog.dom.getElement('got-my-tasks');
+    var curTaskListEl = goog.dom.getElement('got-current-tasks');
     curTaskListEl.appendChild(taskEl);
   }
   this.api_.update(

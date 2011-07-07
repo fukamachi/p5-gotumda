@@ -27,10 +27,14 @@ post '/update.json' => sub {
         return $c->bad_request('Invalid task id') unless $task;
 
         my %params;
-        $params{id}      = $c->req->param('id');
-        $params{body}    = $c->req->param('body') if $c->req->param('body');
-        $params{is_done} = $c->req->param('is_done')
-            if $c->req->param('is_done');
+        $params{id} = $c->req->param('id');
+        $params{body} = $c->req->param('body') if $c->req->param('body');
+        if ( $c->req->param('is_done') eq 'true' ) {
+            $params{is_done} = 1;
+        }
+        elsif ( $c->req->param('is_done') eq 'false' ) {
+            $params{is_done} = undef;
+        }
 
         $task->update( \%params );
     }
