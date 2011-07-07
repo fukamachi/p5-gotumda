@@ -15,22 +15,31 @@
     <a href="/{$owner_name}/tasks">
       <img class="got-taskitem-owner" src="{$owner_image_url}" />
     </a>
-  </div>
-  {if $owner_name != $user_name}
-    <a href="/{$user_name}/tasks">
-      <img class="got-taskitem-user" src="{$user_thumbnail_url}" />
-    </a>
-  {/if}
-  <div class="got-taskitem-owner">
     {if $owner_name != $user_name}
-      <a href="/{$user_name}/tasks">{$user_name}</a> =>
+      <a href="/{$user_name}/tasks">
+        <img class="got-taskitem-user" src="{$user_thumbnail_url}" />
+      </a>
     {/if}
-    <a href="/{$owner_name}/tasks">{$owner_name}</a>
   </div>
-  <div class="got-taskitem-body">
-    {$body|noAutoescape}
+  <div class="got-taskitem-content">
+    <div class="got-taskitem-owner">
+      {if $owner_name != $user_name}
+        <a href="/{$user_name}/tasks">{$user_name}</a> =>
+      {/if}
+      <a href="/{$owner_name}/tasks">{$owner_name}</a>
+    </div>
+    <div class="got-taskitem-body">
+      {$body|noAutoescape}
+    </div>
+    {if not $is_done}
+      <div class="got-taskitem-manage">
+        <a>Edit</a>
+        <a>Delete</a>
+        <a>Comment</a>
+        <input class="got-taskitem-comment" type="text" style="display: none;" />
+      </div>
+    {/if}
   </div>
-  <div class="got-taskitem-data"></div>
   <div class="got-taskitem-action">
     <a class="button"><img src="/static/img/copy.png" /></a>
     <a class="button"><img src="/static/img/get.png" /></a>

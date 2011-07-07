@@ -207,9 +207,9 @@ a.current {
 .got-taskitem {
   clear: both;
   position: relative;
-  height: 70px;
   border-bottom: 1px solid #eee;
   padding: 8px 0;
+  min-height: 70px;
 }
 
 .got-taskitemline {
@@ -238,10 +238,15 @@ a.current {
   left: 0;
 }
 
-.got-taskitem .got-taskitem-body {
-  height: 70px;
-  float: left;
+.got-taskitem .got-taskitem-content {
+  margin-left: 75px;
+  width: 380px;
 }
+
+.got-taskitem .got-taskitem-body {
+  line-height: 110%;
+}
+
 .got-taskitemline .got-taskitem-body {
   width: 503px;
   float: left;
@@ -281,16 +286,30 @@ a.current {
   cursor: pointer;
 }
 
-.got-taskitem-data {
-  color: #888;
-  font-size: x-small;
-  position: absolute;
-  bottom: 10px;
-  left: 70px;
+.got-taskitem-manage {
+  margin-top: 8px;
 }
 
-.got-taskitem-data img {
-  vertical-align: middle;
+.got-taskitem-manage a {
+  font-size: x-small;
+  margin: 0 3px;
+  cursor: pointer;
+  color: #888;
+}
+
+.got-taskitem-manage a:hover {
+  color: #b83800;
+}
+
+.got-taskitem-manage input.got-taskitem-comment {
+  border: 1px solid rgb(228,236,246);
+  width: 300px;
+}
+
+.got-taskitem-manage input:focus {
+  border: 1px solid rgb(228,236,246);
+  background: white;
+  outline: 0;
 }
 
 .profile-image {
