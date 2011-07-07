@@ -11,6 +11,7 @@ goog.provide('got.task');
 goog.require('goog.dom');
 goog.require('goog.json');
 goog.require('goog.array');
+goog.require('got.tmpl.task');
 
 /**
  * Render this task into the specified element.
@@ -24,60 +25,16 @@ got.task.render = function(task, element) {
    */
   element = goog.dom.getElement(element);
 
-  var taskEl =  goog.dom.createDom('div', 'got-taskitem');
-
-  taskEl.appendChild(
-    goog.dom.createDom('div', 'profile-image',
-                       goog.dom.createDom('img',
-                                          {'src': task['owner']['image_url'],
-                                           'class': 'got-taskitem-owner'})));
-  var taskOwnerEl = goog.dom.createDom('div', 'got-taskitem-owner');
-  if (task['user']['name'] !== task['owner']['name']) {
-    taskEl.appendChild(
-      goog.dom.createDom('img', {'src': task['user']['thumbnail_url'],
-                                 'class': 'got-taskitem-user'})
-    );
-    taskOwnerEl.innerHTML = task['user']['name'] + ' => ';
-  }
-  taskOwnerEl.innerHTML += task['owner']['name'];
-  taskEl.appendChild(taskOwnerEl);
-
-  var taskBodyEl = goog.dom.createDom('div', 'got-taskitem-body');
-  if (task['projects'] && !goog.array.isEmpty(task['projects'])) {
-    goog.array.forEach(task['projects'], function(project) {
-      var a = goog.dom.createDom('a',
-                                 {'href': '/project/'+project},
-                                 '#'+project);
-      task['body'] = task['body'].replace(
-        '#'+project, goog.dom.getOuterHtml(a));
-    });
-  }
-  taskBodyEl.innerHTML = task['body'];
-  taskEl.appendChild(taskBodyEl);
-
-  var taskDataEl = goog.dom.createDom('div', 'got-taskitem-data');
-  if (task['origin_task']) {
-    goog.dom.append(taskDataEl, 'from');
-    taskDataEl.appendChild(
-      goog.dom.createDom('img', {'src': task['origin_task']['user']['thumbnail_url']})
-    );
-    taskDataEl.appendChild(
-      goog.dom.createDom('span', null, task['origin_task']['body'])
-    );
-  }
-  taskEl.appendChild(taskDataEl);
-
-  var copyEl = goog.dom.createDom('a', 'button', goog.dom.createDom('img', {'src': '/static/img/copy.png'}));
-  var passEl = goog.dom.createDom('a', 'button', goog.dom.createDom('img', {'src': '/static/img/get.png'}));
-  var taskActionEl = goog.dom.createDom(
-    'div', 'got-taskitem-action',
-    copyEl, passEl
+  var taskHtml = got.tmpl.task.render(
+    {'id': task['id'],
+     'user_name': task['user']['name'],
+     'owner_name': task['owner']['name'],
+     'body': task['body'],
+     'owner_image_url': task['owner']['image_url'],
+     'user_thumbnail_url': task['user']['thumbnail_url']}
   );
-  taskEl.appendChild(taskActionEl);
 
-  taskEl['id'] = task['id'];
-
-  goog.dom.insertChildAt(element, taskEl, 0);
+  element.innerHTML = taskHtml + element.innerHTML;
 };
 
 got.task.renderLine = function(task, element) {

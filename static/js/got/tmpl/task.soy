@@ -1,17 +1,21 @@
-{namespace got.tmpl}
+{namespace got.tmpl.task}
 
 /**
  * @param id
  * @param user_name
  * @param owner_name
  * @param body
- * @param image_url
+ * @param owner_image_url
+ * @param user_thumbnail_url
  */
 {template .render}
 <div id="{$id}" class="got-taskitem">
   <div class="profile-image">
-    <img class="got-taskitem-owner" src="{$image_url}" />
+    <img class="got-taskitem-owner" src="{$owner_image_url}" />
   </div>
+  {if $owner_name != $user_name}
+    <img class="got-taskitem-user" src="{$user_thumbnail_url}" />
+  {/if}
   <div class="got-taskitem-owner">
     {if $owner_name != $user_name}
       {$user_name} =>
