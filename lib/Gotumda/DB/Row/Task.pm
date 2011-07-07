@@ -2,6 +2,7 @@ package Gotumda::DB::Row::Task;
 use warnings;
 use strict;
 use parent 'Teng::Row';
+use Mouse;
 
 sub to_hashref {
     my ( $self, %params ) = @_;
@@ -59,5 +60,14 @@ sub copy {
 
     return $c->db->single( task => { id => $id } );
 }
+
+before 'update' => sub {
+    my ( $self, $row_data ) = @_;
+
+    if ( exists $row_data->{body} ) {
+        Amon2->context()
+            ->db->delete( task_project => { task_id => $self->id } );
+    }
+};
 
 1;
