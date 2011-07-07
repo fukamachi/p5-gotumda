@@ -248,6 +248,9 @@ a.current {
 }
 
 .got-taskitemline .got-taskitem-body {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
   width: 503px;
   float: left;
 }
