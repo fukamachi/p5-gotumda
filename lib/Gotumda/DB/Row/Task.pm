@@ -1,4 +1,5 @@
 package Gotumda::DB::Row::Task;
+use utf8;
 use warnings;
 use strict;
 use parent 'Teng::Row';
@@ -17,7 +18,9 @@ sub to_hashref {
 
     my $result = {
         id   => $self->id,
-        body => Encode::decode( 'utf8', $self->body ),
+        body => utf8::is_utf8( $self->body )
+        ? $self->body
+        : Encode::decode( 'utf8', $self->body ),
         user =>
             Gotumda::DB::Row::User::to_hashref( $user || $self->user_name ),
         owner =>
