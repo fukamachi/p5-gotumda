@@ -1,7 +1,7 @@
 CREATE TABLE user (
     name varchar(64) NOT NULL PRIMARY KEY,
     image_url varchar(255),
-    thumbnail_url varchar (255)
+    thumbnail_url varchar(255)
 );
 
 CREATE TABLE task (
@@ -19,7 +19,7 @@ CREATE TABLE task (
 );
 CREATE INDEX index_task_on_owner_name ON task (owner_name);
 CREATE TRIGGER update_task_updated_at
-BEFORE UPDATE OF body, user_name, owner_name ON task FOR EACH ROW
+BEFORE UPDATE ON task FOR EACH ROW
 BEGIN
     UPDATE task SET updated_at = CURRENT_TIMESTAMP WHERE id = OLD.id;
 END;
@@ -36,7 +36,7 @@ CREATE TABLE task_comment (
 );
 CREATE INDEX index_task_comment_on_task_id ON task_comment (task_id);
 CREATE TRIGGER update_task_comment_updated_at
-BEFORE UPDATE OF body ON task_comment FOR EACH ROW
+BEFORE UPDATE ON task_comment FOR EACH ROW
 BEGIN
     UPDATE task_comment SET updated_at = CURRENT_TIMESTAMP WHERE id = OLD.id;
 END;
@@ -64,12 +64,6 @@ CREATE INDEX index_sort_order ON sort_order(user_name);
 
 CREATE TRIGGER delete_task_project
 AFTER DELETE ON task FOR EACH ROW
-BEGIN
-    DELETE FROM task_project WHERE OLD.id = task_project.task_id;
-END;
-
-CREATE TRIGGER update_task_project
-BEFORE UPDATE OF body ON task FOR EACH ROW
 BEGIN
     DELETE FROM task_project WHERE OLD.id = task_project.task_id;
 END;
