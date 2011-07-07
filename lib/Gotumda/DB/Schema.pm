@@ -14,9 +14,11 @@ table {
     name 'task';
     pk 'id';
     columns
-        qw(id body user_name owner_name origin_task_id is_done created_at);
+        qw(id body user_name owner_name origin_task_id is_done created_at updated_at);
     inflate created_at => sub { Time::Piece->new(shift) };
     deflate created_at => sub { Time::Piece->new(shift)->epoch };
+    inflate updated_at => sub { Time::Piece->new(shift) };
+    deflate updated_at => sub { Time::Piece->new(shift)->epoch };
 };
 
 table {

@@ -12,11 +12,17 @@ CREATE TABLE task (
     origin_task_id INTEGER,
     is_done BOOLEAN,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY(user_name) REFERENCES user(name),
     FOREIGN KEY(owner_name) REFERENCES user(name),
-    FOREIGN KEY (origin_task_id) REFERENCES task(id)
+    FOREIGN KEY(origin_task_id) REFERENCES task(id)
 );
 CREATE INDEX index_task_on_owner_name ON task (owner_name);
+CREATE TRIGGER update_task_updated_at
+BEFORE UPDATE OF body, user_name, owner_name ON task FOR EACH ROW
+BEGIN
+  UPDATE task SET updated_at = CURRENT_TIMESTAMP WHERE id = OLD.id;
+END;
 
 CREATE TABLE watch_project (
     user_name varchar(64) NOT NULL,

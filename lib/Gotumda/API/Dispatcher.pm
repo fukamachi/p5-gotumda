@@ -7,7 +7,7 @@ get '/all-tasks.json' => sub {
     my ($c) = @_;
     my $iter = $c->db->search(
         task => {},
-        { order_by => { created_at => 'ASC' } },
+        { order_by => { updated_at => 'ASC' } },
     );
 
     return $c->render_json( [ map { $_->to_hashref } $iter->all ] );
@@ -19,6 +19,8 @@ post '/update.json' => sub {
     return $c->redirect('/auth') unless $c->current_user;
 
     my $task;
+
+    # modifies an exist task.
     if ( $c->req->param('id') ) {
         $task = $c->db->single( task => { id => $c->req->param('id') } );
 
@@ -32,6 +34,8 @@ post '/update.json' => sub {
 
         $task->update( \%params );
     }
+
+    # insert a new task.
     else {
         $task = $c->db->insert(
             task => {
