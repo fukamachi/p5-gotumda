@@ -1,10 +1,18 @@
 +{
-    'DBI' => [
-        'dbi:SQLite:dbname=deployment.db',
-        '',
-        '',
-        +{
-            sqlite_unicode => 1,
-        }
-    ],
+    'Teng' => {
+        dsn => 'dbi:mysql:gotumda',
+        username => '',
+        password => '',
+        connect_options => +{
+            mysql_enable_utf8 => 1,
+            RaiseError => 1,
+        },
+    },
+    'Text::Xslate' => {
+        path => ['tmpl/'],
+    },
+    'Hatena::API::Auth' => {
+        api_key => "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+        secret => "xxxxxxxxxxxxxxxx",
+    },
 };
