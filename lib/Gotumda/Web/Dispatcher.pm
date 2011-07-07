@@ -29,6 +29,9 @@ get '/project/{project}' => sub {
 
 get '/tasks' => sub {
     my ($c) = @_;
+
+    return $c->redirect('/auth') unless $c->current_user;
+
     $c->render('tasks.tt');
 };
 
