@@ -12,7 +12,10 @@ sub to_hashref {
         user_name => $self->user_name,
         num       => $c->db->search_named(
             'SELECT COUNT(task_id) AS num
-             FROM task_project WHERE project = :project',
+             FROM task_project
+             JOIN task ON task.id = task_project.task_id
+             WHERE task_project.project = :project
+             AND task.is_done IS NULL',
             { project => $self->project }
             )->next->num,
     };
