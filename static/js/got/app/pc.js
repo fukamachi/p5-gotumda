@@ -23,7 +23,7 @@ goog.require('got.task');
 
 /**
  * Class for PC frontend.
- * @param {String} opt_baseUri
+ * @param {String} opt_baseUri Base URI to pass to {got.Api}.
  * @constructor
  */
 got.app.PC = function(opt_baseUri) {
@@ -69,6 +69,8 @@ got.app.PC.prototype.loadMyProjects = function() {
 
 
 /**
+ * Event handler fired on submit a form to create a new task.
+ * @param {goog.events.BrowserEvent} e Event object.
  * @private
  */
 got.app.PC.prototype.onSubmit_ = function(e) {
@@ -108,6 +110,7 @@ got.app.PC.prototype.listenPostButton = function() {
 
 
 /**
+ * @param {goog.events.BrowserEvent} e Event object.
  * @private
  */
 got.app.PC.prototype.blurPostForm_ = function(e) {

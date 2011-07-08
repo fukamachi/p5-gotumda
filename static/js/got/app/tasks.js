@@ -116,7 +116,7 @@ got.app.Tasks.prototype.listenDragEvents = function() {
 
 /**
  * Event handler fired on check of checkboxes.
- * @param {goog.events.BrowserEvent} e
+ * @param {goog.events.BrowserEvent} e Event object.
  * @private
  */
 got.app.Tasks.prototype.onCheck_ = function(e) {
