@@ -41,6 +41,7 @@ got.task.render = function(task, element) {
   goog.dom.insertChildAt(element, taskEl, 0);
 
   got.task.listenTaskAction_(taskEl);
+  got.task.listenDeleteEvents_(taskEl);
   got.task.listenCommentEvents_(taskEl);
 };
 
@@ -136,5 +137,26 @@ got.task.listenCommentEvents_ = function(element) {
           formEl.body.value = '';
           got.task.renderComment(comment, element);
         });
+  });
+};
+
+
+/**
+ * @param {Element} element Element of a task.
+ * @private
+ */
+got.task.listenDeleteEvents_ = function(element) {
+  var linkEl =
+      goog.dom.getElementByClass('task-delete', element);
+  var bodyEl =
+      goog.dom.getElementByClass('got-taskitem-body', element);
+  goog.events.listen(linkEl, goog.events.EventType.CLICK, function(e) {
+    var api = new got.Api();
+    if (confirm('Are you sure you want to permanently delete "' +
+                goog.dom.getTextContent(bodyEl) + '"?')) {
+      api.destroy(element['id'], function() {
+        goog.dom.removeNode(element);
+      });
+    }
   });
 };

@@ -10,6 +10,7 @@ goog.provide('got.Api');
 
 goog.require('goog.array');
 goog.require('goog.events');
+goog.require('goog.json');
 goog.require('goog.net.EventType');
 goog.require('goog.net.XhrIo');
 goog.require('goog.uri.utils');
@@ -109,9 +110,11 @@ got.Api.prototype.move = function(id, opt_callback) {
 /**
  * Delete a task.
  * @param {Integer} id ID of the task to delete.
+ * @param {?Function} opt_callback Callback function
+ *   receives nothing.
  */
-got.Api.prototype.destroy = function(id) {
-  this.sendRequest('api/destroy.json', 'POST', {'id': id});
+got.Api.prototype.destroy = function(id, opt_callback) {
+  this.sendRequest('api/destroy.json', 'POST', {'id': id}, opt_callback);
 };
 
 
@@ -162,8 +165,8 @@ got.Api.prototype.sendRequest = function(uri, method, opt_params,
   if (goog.isFunction(opt_callback)) {
     goog.events.listen(xhr, goog.net.EventType.COMPLETE,
                        function(e) {
-                         var res = e.target.getResponseJson();
-                         opt_callback(res);
+                         var res = e.target.getResponseText();
+                         opt_callback(res === '' ? null : goog.json.parse(res));
                        });
   }
   xhr.send(this.baseUri + uri, method, query);
