@@ -315,6 +315,11 @@ a.current {
   outline: 0;
 }
 
+.got-taskitem-comments div {
+  margin-left: 15px;
+  font-size: small;
+}
+
 .profile-image {
   width: 64px;
   height: 64px;
