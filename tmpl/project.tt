@@ -8,4 +8,8 @@
   Loading..
 </div>
 
+<script type="text/javascript">
+  goog.require('got.app.Project');
+</script>
+
 [% END %]

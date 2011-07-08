@@ -17,14 +17,14 @@ goog.require('goog.uri.utils');
 
 /**
  * Class to request to backend by RESTful API.
- * @param {String} baseUri
+ * @param {String} opt_baseUri
  * @constructor
  */
-got.Api = function(baseUri) {
+got.Api = function(opt_baseUri) {
   /**
    * @type {String}
    */
-  this.baseUri = baseUri;
+  this.baseUri = opt_baseUri || '/';
 };
 
 /**

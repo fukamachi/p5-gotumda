@@ -4,4 +4,8 @@
   Loading..
 </div>
 
+<script type="text/javascript">
+  goog.require('got.app.Timeline');
+</script>
+
 [% END %]
