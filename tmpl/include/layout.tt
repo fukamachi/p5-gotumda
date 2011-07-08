@@ -36,5 +36,8 @@
 </div>
 
 </div>
+<script type="text/javascript">
+  got.IS_LOGINED = [% IF current_user() %]true[% ELSE %]false[% END %];
+</script>
 </body>
 </html>

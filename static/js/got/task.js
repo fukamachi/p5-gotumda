@@ -33,7 +33,8 @@ got.task.render = function(task, element) {
      'body': got.task.parseBody_(task['body']),
      'is_done': task['is_done'],
      'owner_image_url': task['owner']['image_url'],
-     'user_thumbnail_url': task['user']['thumbnail_url']}
+     'user_thumbnail_url': task['user']['thumbnail_url'],
+     'is_logined': got.IS_LOGINED}
   );
 
   element.innerHTML = taskHtml + element.innerHTML;
@@ -46,7 +47,8 @@ got.task.renderLine = function(task, element) {
     {'id': task['id'],
      'body': task['body'],
      'is_done': task['is_done'],
-     'user_thumbnail_url': task['user']['thumbnail_url']}
+     'user_thumbnail_url': task['user']['thumbnail_url'],
+     'is_logined': got.IS_LOGINED}
   );
 
   element.innerHTML = taskHtml + element.innerHTML;

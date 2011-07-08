@@ -54,8 +54,10 @@ got.app.Tasks.prototype.loadTasks = function() {
             got.task.renderLine(task, curEl);
           }
         });
-        this.listenDragEvents(curEl);
-        this.listenCheckEvents();
+        if (got.IS_LOGINED) {
+          this.listenDragEvents(curEl);
+          this.listenCheckEvents();
+        }
       }, this)
   );
 };

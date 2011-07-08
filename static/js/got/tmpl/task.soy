@@ -8,6 +8,7 @@
  * @param is_done
  * @param owner_image_url
  * @param user_thumbnail_url
+ * @param is_logined
  */
 {template .render}
 <div id="{$id}" class="got-taskitem{if $is_done} done-task{/if}">
@@ -31,20 +32,24 @@
     <div class="got-taskitem-body">
       {$body|noAutoescape}
     </div>
-    <div class="got-taskitem-manage">
-      <a class="task-edit">Edit</a>
-      <a class="task-delete">Delete</a>
-      <a class="task-comment">Comment</a>
-      <form class="got-taskitem-comment" onsubmit="return false;" style="display: none;">
-        <input type="hidden" name="task_id" value="{$id}" />
-        <input type="text" name="body" />
-      </form>
+    {if $is_logined}
+      <div class="got-taskitem-manage">
+        <a class="task-edit">Edit</a>
+        <a class="task-delete">Delete</a>
+        <a class="task-comment">Comment</a>
+        <form class="got-taskitem-comment" onsubmit="return false;" style="display: none;">
+          <input type="hidden" name="task_id" value="{$id}" />
+          <input type="text" name="body" />
+        </form>
+      </div>
+    {/if}
+  </div>
+  {if $is_logined}
+    <div class="got-taskitem-action">
+      <a class="button"><img src="/static/img/copy.png" /></a>
+      <a class="button"><img src="/static/img/get.png" /></a>
     </div>
-  </div>
-  <div class="got-taskitem-action">
-    <a class="button"><img src="/static/img/copy.png" /></a>
-    <a class="button"><img src="/static/img/get.png" /></a>
-  </div>
+  {/if}
 </div>
 {/template}
 
@@ -53,10 +58,13 @@
  * @param body
  * @param is_done
  * @param user_thumbnail_url
+ * @param is_logined
  */
 {template .renderLine}
 <div id="{$id}" class="got-taskitemline">
-  <input class="got-taskitem-done" type="checkbox"{if $is_done} checked="true"{/if} />
+  {if $is_logined}
+    <input class="got-taskitem-done" type="checkbox"{if $is_done} checked="true"{/if} />
+  {/if}
   <div class="got-taskitem-body">
     <img src="{$user_thumbnail_url}" />
     {$body}
