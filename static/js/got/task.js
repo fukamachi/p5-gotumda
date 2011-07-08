@@ -62,6 +62,20 @@ got.task.renderLine = function(task, element) {
 
 
 /**
+ * @param {Object} comment JSON of a task comment.
+ * @param {Element} element Element of a task.
+ */
+got.task.renderComment = function(comment, element) {
+  var formEl =
+      goog.dom.getElementByClass('comment-form', element);
+  var commentEl =
+      goog.dom.htmlToDocumentFragment(got.tmpl.task.renderTaskComment(comment));
+
+  goog.dom.insertSiblingBefore(commentEl, formEl);
+};
+
+
+/**
  * Convert a task body into HTML.
  * @param {String} body Raw task body.
  * @private
@@ -105,22 +119,22 @@ got.task.listenTaskAction_ = function(element) {
  * @private
  */
 got.task.listenCommentEvents_ = function(element) {
-  var commentEl =
+  var linkEl =
       goog.dom.getElementByClass('task-comment', element);
-  var commentFormEl =
+  var formEl =
       goog.dom.getElementByClass('comment-form', element);
 
-  goog.events.listen(commentEl, goog.events.EventType.CLICK, function(e) {
-    goog.style.showElement(commentFormEl, true);
-    commentFormEl.body.focus();
+  goog.events.listen(linkEl, goog.events.EventType.CLICK, function(e) {
+    goog.style.showElement(formEl, true);
+    formEl.body.focus();
   });
 
-  goog.events.listen(commentFormEl, goog.events.EventType.SUBMIT, function(e) {
+  goog.events.listen(formEl, goog.events.EventType.SUBMIT, function(e) {
     var api = new got.Api();
     api.taskComment(
-        goog.dom.forms.getFormDataMap(el).toObject(), function(comment) {
-          commentFormEl.body.value = '';
-          goog.style.showElement(el, false);
+        goog.dom.forms.getFormDataMap(formEl).toObject(), function(comment) {
+          formEl.body.value = '';
+          got.task.renderComment(comment, element);
         });
   });
 };
