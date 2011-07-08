@@ -30,7 +30,11 @@ get '/project/{project}' => sub {
 get '/{user}/tasks' => sub {
     my ( $c, $args ) = @_;
 
-    return $c->redirect('/tasks') if $args->{user} eq $c->current_user->name;
+    if (    $c->current_user
+        and $c->current_user->name eq $args->{user} )
+    {
+        return $c->redirect('/tasks');
+    }
 
     $c->render( 'tasks.tt', { user => $args->{user} } );
 };
