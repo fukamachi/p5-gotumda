@@ -15,6 +15,7 @@ goog.require('goog.dom');
 goog.require('goog.dom.forms');
 goog.require('goog.events');
 goog.require('goog.style');
+goog.require('goog.uri.utils');
 goog.require('got.Api');
 goog.require('got.task');
 
@@ -37,7 +38,7 @@ got.app.PC = function(opt_baseUri) {
   }
 
   if (goog.dom.getElement('got-post-button')) {
-    this.listenPostButton_();
+    this.listenPostButton();
   }
 };
 
@@ -46,7 +47,7 @@ got.app.PC = function(opt_baseUri) {
  * @protected
  */
 got.app.PC.prototype.loadMyProjects = function() {
-  this.api_.myProjects(function(projects) {
+  this.api.myProjects(function(projects) {
     var element = goog.dom.getElement('my-projects');
     element.innerHTML = '';
     goog.array.forEach(projects, function(project) {
@@ -55,7 +56,9 @@ got.app.PC.prototype.loadMyProjects = function() {
               'a',
               { 'href': '/project/' + project['project'] },
               '#' + project['project']);
-      if (project['project'] === got.app.pc.getProject_()) {
+
+      if (('/project/' + project['project']) ===
+          goog.uri.utils.getPath(location.href)) {
         a.className = 'current';
       }
       a.appendChild(goog.dom.createDom('div', 'count', '' + project['num']));
@@ -72,7 +75,7 @@ got.app.PC.prototype.onSubmit_ = function(e) {
   var form = e.target;
   var textarea =
       goog.dom.getElementsByTagNameAndClass('textarea', null, form)[0];
-  this.api_.update(
+  this.api.update(
       goog.dom.forms.getFormDataMap(form).toObject(), function(res) {
         if (goog.dom.getElement('got-public-tasks')) {
           got.task.render(res, 'got-public-tasks');
