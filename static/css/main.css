@@ -304,12 +304,12 @@ a.current {
   color: #b83800;
 }
 
-.got-taskitem-manage .got-taskitem-comment input {
+.got-taskitem-comments .comment-form input {
   border: 1px solid rgb(228,236,246);
   width: 300px;
 }
 
-.got-taskitem-manage input:focus {
+.got-taskitem-comments input:focus {
   border: 1px solid rgb(228,236,246);
   background: white;
   outline: 0;

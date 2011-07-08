@@ -2,32 +2,31 @@
 
 /**
  * @param id
- * @param user_name
- * @param owner_name
+ * @param user
+ * @param owner
  * @param body
  * @param is_done
- * @param owner_image_url
- * @param user_thumbnail_url
+ * @param comments
  * @param is_logined
  */
 {template .render}
 <div id="{$id}" class="got-taskitem{if $is_done} done-task{/if}">
   <div class="profile-image">
-    <a href="/{$owner_name}/tasks">
-      <img class="got-taskitem-owner" src="{$owner_image_url}" />
+    <a href="/{$owner.name}/tasks">
+      <img class="got-taskitem-owner" src="{$owner.image_url}" />
     </a>
-    {if $owner_name != $user_name}
-      <a href="/{$user_name}/tasks">
-        <img class="got-taskitem-user" src="{$user_thumbnail_url}" />
+    {if $owner.name != $user.name}
+      <a href="/{$user.name}/tasks">
+        <img class="got-taskitem-user" src="{$user.thumbnail_url}" />
       </a>
     {/if}
   </div>
   <div class="got-taskitem-content">
     <div class="got-taskitem-owner">
-      {if $owner_name != $user_name}
-        <a href="/{$user_name}/tasks">{$user_name}</a> =>
+      {if $owner.name != $user.name}
+        <a href="/{$user.name}/tasks">{$user.name}</a> =>
       {/if}
-      <a href="/{$owner_name}/tasks">{$owner_name}</a>
+      <a href="/{$owner.name}/tasks">{$owner.name}</a>
     </div>
     <div class="got-taskitem-body">
       {$body|noAutoescape}
@@ -37,12 +36,17 @@
         <a class="task-edit">Edit</a>
         <a class="task-delete">Delete</a>
         <a class="task-comment">Comment</a>
-        <form class="got-taskitem-comment" onsubmit="return false;" style="display: none;">
-          <input type="hidden" name="task_id" value="{$id}" />
-          <input type="text" name="body" />
-        </form>
       </div>
     {/if}
+    <div class="got-taskitem-comments">
+      {foreach $cmt in $comments}
+        {call .renderTaskComment data="$cmt" /}
+      {/foreach}
+      <form class="comment-form" onsubmit="return false;" style="display: none;">
+        <input type="hidden" name="task_id" value="{$id}" />
+        <input type="text" name="body" />
+      </form>
+    </div>
   </div>
   {if $is_logined}
     <div class="got-taskitem-action">
@@ -57,7 +61,7 @@
  * @param id
  * @param body
  * @param is_done
- * @param user_thumbnail_url
+ * @param user
  * @param is_logined
  */
 {template .renderLine}
@@ -66,8 +70,18 @@
     <input class="got-taskitem-done" type="checkbox"{if $is_done} checked="true"{/if} />
   {/if}
   <div class="got-taskitem-body">
-    <img src="{$user_thumbnail_url}" />
+    <img src="{$user.thumbnail_url}" />
     {$body}
   </div>
+</div>
+{/template}
+
+/**
+ * @param user
+ * @param body
+ */
+{template .renderTaskComment}
+<div class="got-taskitem-comment">
+  <img src="{$user.thumbnail_url}" alt="{$user.name}" title="{$user.name}" /> {$body}
 </div>
 {/template}
