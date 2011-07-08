@@ -10,8 +10,9 @@ body {
 .cursor-move {
   cursor: move;
   text-align: left;
-  background-color: #eee;
-  border: 1px solid #ccc !important;
+  background-color: #fafafa;
+  border: 1px solid #ddd !important;
+  border-radius: 4px;
 }
 
 .dragging {
