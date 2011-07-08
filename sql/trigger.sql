@@ -28,7 +28,7 @@ DELIMITER |
 |
 DELIMITER |
     CREATE TRIGGER delete_task_comment_and_task_project
-    AFTER DELETE ON task FOR EACH ROW
+    BEFORE DELETE ON task FOR EACH ROW
     BEGIN
         DELETE FROM task_comment WHERE OLD.id = task_comment.task_id;
         DELETE FROM task_project WHERE OLD.id = task_project.task_id;
