@@ -69,7 +69,7 @@
   {if $is_logined}
     <input class="got-taskitem-done" type="checkbox"{if $is_done} checked="true"{/if} />
   {/if}
-  <div class="got-taskitem-body">
+  <div class="got-taskitem-body" title="{$body}">
     <img src="{$user.thumbnail_url}" />
     {$body}
   </div>
