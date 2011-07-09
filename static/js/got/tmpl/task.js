@@ -16,7 +16,7 @@ got.tmpl.task.render = function(opt_data, opt_sb) {
     var cmtData41 = cmtList41[cmtIndex41];
     got.tmpl.task.renderTaskComment(cmtData41, output);
   }
-  output.append('<form class="comment-form" onsubmit="return false;" style="display: none;"><input type="hidden" name="task_id" value="', soy.$$escapeHtml(opt_data.id), '" /><input type="text" name="body" /></form></div></div>', (opt_data.is_logined) ? '<div class="got-taskitem-action"><a class="button" title="Copy this task and put it into My Tasks."><img src="/static/img/copy.png" alt="Copy" /></a><a class="button" title="Get and move this task to My Tasks.."><img src="/static/img/get.png" alt="Get" /></a></div>' : '', '</div>');
+  output.append('<form class="comment-form" onsubmit="return false;" style="display: none;"><input type="hidden" name="task_id" value="', soy.$$escapeHtml(opt_data.id), '" /><input type="text" name="body" /></form></div></div>', (opt_data.is_logined) ? '<div class="got-taskitem-action"><a class="button" title="Copy this task and put it into \'My Tasks\'."><img src="/static/img/copy.png" alt="Copy" /></a><a class="button" title="Get and move this task to \'My Tasks\'."><img src="/static/img/get.png" alt="Get" /></a></div>' : '', '</div>');
   if (!opt_sb) return output.toString();
 };
 
