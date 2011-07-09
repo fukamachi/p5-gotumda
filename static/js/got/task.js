@@ -97,20 +97,28 @@ got.task.parseBody_ = function(body) {
 got.task.listenTaskAction_ = function(element) {
   var actionEl = goog.dom.getElementByClass('got-taskitem-action', element);
   var api = new got.Api();
+  // Copy button.
+  var copyEl = actionEl.childNodes[0];
   goog.events.listen(
-      actionEl.childNodes[0], goog.events.EventType.CLICK,
+      copyEl, goog.events.EventType.CLICK,
       function(e) {
-        api.copy(element['id'], function(res) {
-          got.task.render(res, 'got-public-tasks');
-        });
+        if (confirm(copyEl.title)) {
+          api.copy(element['id'], function(res) {
+            got.task.render(res, 'got-public-tasks');
+          });
+        }
       });
+  // Get button.
+  var getEl = actionEl.childNodes[1];
   goog.events.listen(
-      actionEl.childNodes[1], goog.events.EventType.CLICK,
+      getEl, goog.events.EventType.CLICK,
       function(e) {
-        api.move(element['id'], function(res) {
-          goog.dom.removeNode(element);
-          got.task.render(res, 'got-public-tasks');
-        });
+        if (confirm(getEl.title)) {
+          api.move(element['id'], function(res) {
+            goog.dom.removeNode(element);
+            got.task.render(res, 'got-public-tasks');
+          });
+        }
       });
 };
 
