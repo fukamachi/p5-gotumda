@@ -29,6 +29,7 @@ use Text::Xslate;
             'module'   => ['Text::Xslate::Bridge::TT2Like'],
             'function' => {
                 c            => sub { Amon2->context() },
+                mode_name    => sub { Gotumda->mode_name() },
                 uri_with     => sub { Amon2->context()->req->uri_with(@_) },
                 uri_for      => sub { Amon2->context()->uri_for(@_) },
                 path_info    => sub { Amon2->context()->req->path_info },
