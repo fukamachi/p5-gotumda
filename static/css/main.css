@@ -230,8 +230,6 @@ a.current {
 
 .got-taskitemline {
   clear: both;
-  height: 20px;
-  padding: 4px;
   border: 1px solid white;
   position: relative;
 }
@@ -260,10 +258,6 @@ a.current {
   width: 380px;
 }
 
-.got-taskitem .got-taskitem-body {
-  line-height: 110%;
-}
-
 .got-taskitemline .got-taskitem-body {
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -272,8 +266,14 @@ a.current {
   float: left;
 }
 
+#got-current-tasks .got-taskitemline {
+  height: 20px;
+  padding: 4px;
+}
+
 #got-done-tasks .got-taskitemline .got-taskitem-body {
   width: 473px;
+  line-height: 110%;
 }
 
 .got-taskitem .got-taskitem-owner {
