@@ -12,3 +12,4 @@ goog.require('got.app.PC');
 goog.require('got.app.Project');
 goog.require('got.app.Tasks');
 goog.require('got.app.Timeline');
+goog.require('got.app.User');
