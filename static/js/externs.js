@@ -6,6 +6,7 @@
  * @author e.arrows@gmail.com (Eitarow Fukamachi)
  */
 
+var goog, got;
 goog.require('got.app.Timeline');
 got.app.Timeline;
 goog.require('got.app.Tasks');
