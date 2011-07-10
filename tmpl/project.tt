@@ -10,6 +10,7 @@
 
 <script type="text/javascript">
   goog.require('got.app.Project');
+  new got.app.Project();
 </script>
 
 [% END %]

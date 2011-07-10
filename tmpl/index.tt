@@ -6,6 +6,7 @@
 
 <script type="text/javascript">
   goog.require('got.app.Timeline');
+  new got.app.Timeline();
 </script>
 
 [% END %]

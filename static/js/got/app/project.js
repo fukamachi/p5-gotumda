@@ -71,5 +71,3 @@ got.app.Project.prototype.loadProjectTasks = function() {
 got.app.Project.getProject_ = function() {
   return goog.uri.utils.getPath(location.href).replace(/^\/project\//, '');
 };
-
-new got.app.Project();

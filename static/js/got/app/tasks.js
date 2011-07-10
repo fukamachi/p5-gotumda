@@ -163,5 +163,3 @@ got.app.Tasks.getUser_ = function() {
 
   return res && res[1];
 };
-
-new got.app.Tasks();

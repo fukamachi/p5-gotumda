@@ -11,6 +11,7 @@
 
 <script type="text/javascript">
   goog.require('got.app.Tasks');
+  new got.app.Tasks();
 </script>
 
 [% END %]

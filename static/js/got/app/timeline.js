@@ -51,5 +51,3 @@ got.app.Timeline.prototype.loadPublicTasks = function() {
         });
       }, this));
 };
-
-new got.app.Timeline();
