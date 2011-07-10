@@ -104,9 +104,10 @@ h2 {
 
 #content-left a {
   display: block;
+  height: 28px;
   font-size: 12px;
   text-decoration: none;
-  padding-left: 8px;
+  padding: 5px 0 0 8px;
   cursor: pointer;
   position: relative;
 }
@@ -133,7 +134,7 @@ a.current {
   background-color: #bbb;
   text-align: center;
   position: absolute;
-  top: 3px;
+  top: 8px;
   right: 8px;
   font-size: small;
   line-height: 130%;
