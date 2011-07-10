@@ -35,7 +35,6 @@ got.app.Timeline = function() {
   this.loadPublicTasks();
 };
 goog.inherits(got.app.Timeline, got.app.PC);
-goog.exportSymbol('got.app.Timeline', got.app.Timeline);
 
 
 /**
