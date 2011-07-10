@@ -5,7 +5,9 @@
 </div>
 
 <script type="text/javascript">
-  goog.require('got.app.Timeline');
+  [% IF mode_name() != 'deployment' %]
+    goog.require('got.app.Timeline');
+  [% END %]
   new got.app.Timeline();
 </script>
 

@@ -10,7 +10,9 @@
 </div>
 
 <script type="text/javascript">
-  goog.require('got.app.Tasks');
+  [% IF mode_name() != 'deployment' %]
+    goog.require('got.app.Tasks');
+  [% END %]
   new got.app.Tasks();
 </script>
 
