@@ -5,7 +5,7 @@
       <img src="[% current_user().thumbnail_url %]" />
       <a href="[% uri_for('/tasks') %]">[% current_user().name %]</a>
     [% ELSE %]
-      <a href="/auth"><img src="[% uri_for('/static/img/login-hatena.png') %]" alt="Login with Hatena" height="20px"/></a>
+      <a id="login-button" href="/auth"></a>
     [% END %]
   </div>
 </div>

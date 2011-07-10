@@ -82,6 +82,16 @@ h2 {
   text-decoration: none;
 }
 
+#login-button {
+  background: #eee url(/static/img/login-hatena.png) no-repeat 5px 5px;
+  border-radius: 4px;
+  border: 1px solid #b1c5da;
+  display: block;
+  height: 30px;
+  width: 150px;
+  margin: -6px -10px 0 0;
+}
+
 /**
  * Content
  **/
