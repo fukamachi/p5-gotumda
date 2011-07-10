@@ -62,4 +62,18 @@ around [qw(insert update)] => sub {
     return $result;
 };
 
+sub has_permission {
+    my ( $task_id, $user_name ) = @_;
+
+    my $c = Amon2->context();
+    $user_name ||= $c->current_user->name;
+
+    $c->db->search_named(
+        'SELECT COUNT(id) FROM task WHERE id = :id AND (owner_name = :user OR user_name = :user)',
+        {   id   => $task_id,
+            user => $user_name,
+        }
+    );
+}
+
 1;

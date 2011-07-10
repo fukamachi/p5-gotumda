@@ -18,13 +18,16 @@ post '/update.json' => sub {
 
     return $c->redirect('/auth') unless $c->current_user;
 
+    return $c->bad_request("Permission denied.")
+        unless $c->db->has_permission( $c->req->param('id') );
+
     my $task;
 
     # modifies an exist task.
     if ( $c->req->param('id') ) {
         $task = $c->db->single( task => { id => $c->req->param('id') } );
 
-        return $c->bad_request('Invalid task id') unless $task;
+        return $c->bad_request('Invalid task id.') unless $task;
 
         my %params;
         $params{id} = $c->req->param('id');
@@ -80,8 +83,11 @@ post '/destroy.json' => sub {
     return $c->bad_request('Authorization required.')
         unless $c->current_user;
 
-    return $c->bad_request("'id' is a required parameter")
+    return $c->bad_request("'id' is a required parameter.")
         unless $c->req->param('id');
+
+    return $c->bad_request("Permission denied.")
+        unless $c->db->has_permission( $c->req->param('id') );
 
     $c->db->delete( task => { id => $c->req->param('id') } );
 
@@ -94,7 +100,7 @@ post '/move.json' => sub {
     return $c->bad_request('Authorization required.')
         unless $c->current_user;
 
-    return $c->bad_request("'id' is a required parameter")
+    return $c->bad_request("'id' is a required parameter.")
         unless $c->req->param('id');
 
     my $task = $c->db->single( task => { id => $c->req->param('id') } );
@@ -109,7 +115,7 @@ post '/copy.json' => sub {
     return $c->bad_request('Authorization required.')
         unless $c->current_user;
 
-    return $c->bad_request("'id' is a required parameter")
+    return $c->bad_request("'id' is a required parameter.")
         unless $c->req->param('id');
 
     my $task = $c->db->single( task => { id => $c->req->param('id') } );
