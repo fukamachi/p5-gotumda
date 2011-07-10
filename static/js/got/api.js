@@ -47,7 +47,8 @@ got.Api.prototype.allTasks = function(callback) {
  *   receives an array contains task objects.
  */
 got.Api.prototype.tasks = function(userName, callback) {
-  this.sendRequest('api/tasks.json?user=' + userName, 'GET', null, callback);
+  this.sendRequest('api/tasks.json?user=' + (userName || ''),
+                   'GET', null, callback);
 };
 
 

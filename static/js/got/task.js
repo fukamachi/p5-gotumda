@@ -85,7 +85,7 @@ got.task.renderComment = function(comment, element) {
 got.task.parseBody_ = function(body) {
   return goog.string.htmlEscape(body)
       .replace(/#(\w+)/, '<a href="/project/$1">#$1</a>')
-      .replace(/@(\w+)/, '<a href="/$1/tasks">@$1</a>');
+      .replace(/@(\w+)/, '<a href="/tasks/$1">@$1</a>');
 };
 
 

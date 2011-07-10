@@ -1,7 +1,7 @@
 // Copyright 2011 Eitarow Fukamachi. All rights reserved.
 
 /**
- * @fileoverview User's Task Page.
+ * @fileoverview My Tasks Page.
  *
  * @author e.arrows@gmail.com (Eitarow Fukamachi)
  */
@@ -42,7 +42,7 @@ goog.inherits(got.app.Tasks, got.app.PC);
  */
 got.app.Tasks.prototype.loadTasks = function() {
   this.api.tasks(
-      got.app.Tasks.getUser_(),
+      null,
       goog.bind(function(tasks) {
         var curEl = goog.dom.getElement('got-current-tasks');
         var doneEl = goog.dom.getElement('got-done-tasks');
@@ -151,15 +151,4 @@ got.app.Tasks.prototype.listenCheckEvents = function() {
     goog.events.listen(checkEl, goog.events.EventType.CLICK,
                        this.onCheck_, false, this);
   }, this);
-};
-
-
-/**
- * @private
- * @return {String} Which user's page.
- */
-got.app.Tasks.getUser_ = function() {
-  var res = goog.uri.utils.getPath(location.href).match(/^\/?(.*)\/tasks$/, '');
-
-  return res && res[1];
 };

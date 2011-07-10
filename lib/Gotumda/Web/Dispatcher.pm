@@ -27,7 +27,7 @@ get '/project/{project}' => sub {
     );
 };
 
-get '/{user}/tasks' => sub {
+get '/tasks/{user}' => sub {
     my ( $c, $args ) = @_;
 
     if (    $c->current_user
@@ -36,7 +36,7 @@ get '/{user}/tasks' => sub {
         return $c->redirect('/tasks');
     }
 
-    $c->render( 'tasks.tt', { user => $args->{user} } );
+    $c->render( 'user.tt', { user => $args->{user} } );
 };
 
 get '/tasks' => sub {

@@ -1,21 +1,17 @@
 [% WRAPPER 'include/layout.tt' %]
 
-<h2>My Tasks</h2>
+<h2>[% user %]'s Tasks</h2>
 <div id="got-task-list">
-  <div id="got-current-tasks">
-    Loading..
-  </div>
-  <div id="got-done-tasks">
-  </div>
+  Loading..
 </div>
 
 [% IF mode_name() != 'deployment' %]
 <script type="text/javascript">
-  goog.require('got.app.Tasks');
+  goog.require('got.app.User');
 </script>
 [% END %]
 <script type="text/javascript">
-  new got.app.Tasks();
+  new got.app.User();
 </script>
 
 [% END %]

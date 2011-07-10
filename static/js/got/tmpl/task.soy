@@ -12,11 +12,11 @@
 {template .render}
 <div id="{$id}" class="got-taskitem{if $is_done} done-task{/if}">
   <div class="profile-image">
-    <a href="/{$owner.name}/tasks">
+    <a href="/tasks/{$owner.name}">
       <img class="got-taskitem-owner" src="{$owner.image_url}" />
     </a>
     {if $owner.name != $user.name}
-      <a href="/{$user.name}/tasks">
+      <a href="/tasks/{$user.name}">
         <img class="got-taskitem-user" src="{$user.thumbnail_url}" />
       </a>
     {/if}
@@ -24,9 +24,9 @@
   <div class="got-taskitem-content">
     <div class="got-taskitem-owner">
       {if $owner.name != $user.name}
-        <a href="/{$user.name}/tasks">{$user.name}</a> =>
+        <a href="/tasks/{$user.name}">{$user.name}</a> =>
       {/if}
-      <a href="/{$owner.name}/tasks">{$owner.name}</a>
+      <a href="/tasks/{$owner.name}">{$owner.name}</a>
     </div>
     <div class="got-taskitem-body">
       {$body|noAutoescape}

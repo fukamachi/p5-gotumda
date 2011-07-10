@@ -68,7 +68,7 @@ get '/tasks.json' => sub {
     my $order = $c->db->single( sort_order => { user_name => $user_name } );
 
     return $c->render_json(
-        [   map { $_->to_hashref( with_comments => 0 ) }
+        [   map { $_->to_hashref() }
                 $order ? $order->sort_tasks( \@tasks ) : @tasks
         ]
     );
