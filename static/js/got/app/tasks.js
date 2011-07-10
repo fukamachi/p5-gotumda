@@ -35,6 +35,7 @@ got.app.Tasks = function() {
   this.loadTasks();
 };
 goog.inherits(got.app.Tasks, got.app.PC);
+goog.exportSymbol('goog.app.Tasks');
 
 
 /**
