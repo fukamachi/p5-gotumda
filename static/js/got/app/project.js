@@ -45,7 +45,7 @@ got.app.Project = function() {
   }
 };
 goog.inherits(got.app.Project, got.app.PC);
-goog.exportSymbol('goog.app.Project');
+goog.exportSymbol('got.app.Project', got.app.Project);
 
 
 /**
