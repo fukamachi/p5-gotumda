@@ -18,10 +18,10 @@ post '/update.json' => sub {
 
     return $c->redirect('/auth') unless $c->current_user;
 
-    return $c->bad_request("Permission denied.")
-        unless $c->db->has_permission( $c->req->param('id') );
+    my $task = $c->db->single( task => { id => $c->req->param('id') } );
 
-    my $task;
+    return $c->bad_request("Permission denied.")
+        if $task and !$task->has_permission;
 
     # modifies an exist task.
     if ( $c->req->param('id') ) {
@@ -83,11 +83,12 @@ post '/destroy.json' => sub {
     return $c->bad_request('Authorization required.')
         unless $c->current_user;
 
-    return $c->bad_request("'id' is a required parameter.")
-        unless $c->req->param('id');
+    my $task = $c->db->single( task => { id => $c->req->param('id') } );
+
+    return $c->bad_request("Invalid task.") unless $task;
 
     return $c->bad_request("Permission denied.")
-        unless $c->db->has_permission( $c->req->param('id') );
+        unless $task->has_permission;
 
     $c->db->delete( task => { id => $c->req->param('id') } );
 
@@ -100,10 +101,13 @@ post '/move.json' => sub {
     return $c->bad_request('Authorization required.')
         unless $c->current_user;
 
-    return $c->bad_request("'id' is a required parameter.")
-        unless $c->req->param('id');
-
     my $task = $c->db->single( task => { id => $c->req->param('id') } );
+
+    return $c->bad_request("Invalid task.") unless $task;
+
+    return $c->bad_request("Permission denied.")
+        unless $task->has_permission;
+
     $task->update( { owner_name => $c->current_user->name } );
 
     return $c->render_json( $task->to_hashref );

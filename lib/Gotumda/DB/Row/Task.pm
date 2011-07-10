@@ -43,6 +43,20 @@ sub to_hashref {
     return $result;
 }
 
+sub has_permission {
+    my ( $self, $user_name ) = @_;
+
+    my $c = Amon2->context();
+    $user_name ||= $c->current_user->name;
+
+    return $c->db->search_named(
+        'SELECT COUNT(id) as num FROM task WHERE id = :id AND (owner_name = :user OR user_name = :user)',
+        {   id   => $self->id,
+            user => $user_name,
+        }
+    )->next->num;
+}
+
 sub copy {
     my ($self) = @_;
 
