@@ -31,6 +31,10 @@ a:hover {
   color: #b83800;
 }
 
+hr {
+  border-color: #eee;
+}
+
 #container {
   margin: 0 auto;
   width: 800px;
@@ -252,7 +256,7 @@ a.current {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  width: 503px;
+  width: 500px;
   float: left;
 }
 
