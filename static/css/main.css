@@ -307,10 +307,6 @@ a.current {
   cursor: pointer;
 }
 
-.got-taskitem-manage {
-  margin-top: 8px;
-}
-
 .got-taskitem-manage a {
   font-size: x-small;
   margin: 0 3px;
