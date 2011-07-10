@@ -62,6 +62,7 @@
  * @param body
  * @param is_done
  * @param user
+ * @param owner
  * @param is_logined
  */
 {template .renderLine}
@@ -70,7 +71,9 @@
     <input class="got-taskitem-done" type="checkbox"{if $is_done} checked="true"{/if} />
   {/if}
   <div class="got-taskitem-body" title="{$body}">
-    <img src="{$user.thumbnail_url}" />
+    {if $user.name != $owner.name}
+      <img src="{$user.thumbnail_url}" />
+    {/if}
     {$body}
   </div>
 </div>

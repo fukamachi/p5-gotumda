@@ -222,6 +222,7 @@ a.current {
   height: 20px;
   padding: 4px;
   border: 1px solid white;
+  position: relative;
 }
 
 .done-task {
@@ -279,7 +280,8 @@ a.current {
 }
 
 .got-taskitemline img {
-  float: left;
+  position: absolute;
+  left: -17px;
 }
 
 .got-taskitem-action {
