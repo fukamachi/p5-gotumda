@@ -40,9 +40,7 @@ got.task.render = function(task, element) {
 
   goog.dom.insertChildAt(element, taskEl, 0);
 
-  got.task.listenTaskAction_(taskEl);
-  got.task.listenDeleteEvents_(taskEl);
-  got.task.listenCommentEvents_(taskEl);
+  got.task.listenEvents_(taskEl);
 };
 
 
@@ -86,6 +84,18 @@ got.task.parseBody_ = function(body) {
   return goog.string.htmlEscape(body)
       .replace(/#(\w+)/, '<a href="/project/$1">#$1</a>')
       .replace(/@(\w+)/, '<a href="/tasks/$1">@$1</a>');
+};
+
+
+/**
+ * @param {Element} element Element of a task.
+ * @private
+ */
+got.task.listenEvents_ = function(element) {
+  got.task.listenTaskAction_(element);
+  got.task.listenEditEvents_(element);
+  got.task.listenDeleteEvents_(element);
+  got.task.listenCommentEvents_(element);
 };
 
 
@@ -137,19 +147,23 @@ got.task.listenCommentEvents_ = function(element) {
   var formEl =
       goog.dom.getElementByClass('comment-form', element);
 
-  goog.events.listen(linkEl, goog.events.EventType.CLICK, function(e) {
-    goog.style.showElement(formEl, true);
-    formEl.body.focus();
-  });
+  if (linkEl) {
+    goog.events.listen(linkEl, goog.events.EventType.CLICK, function(e) {
+      goog.style.showElement(formEl, true);
+      formEl.body.focus();
+    });
+  }
 
-  goog.events.listen(formEl, goog.events.EventType.SUBMIT, function(e) {
-    var api = new got.Api();
-    api.taskComment(
-        goog.dom.forms.getFormDataMap(formEl).toObject(), function(comment) {
-          formEl.body.value = '';
-          got.task.renderComment(comment, element);
-        });
-  });
+  if (formEl) {
+    goog.events.listen(formEl, goog.events.EventType.SUBMIT, function(e) {
+      var api = new got.Api();
+      api.taskComment(
+          goog.dom.forms.getFormDataMap(formEl).toObject(), function(comment) {
+            formEl.body.value = '';
+            got.task.renderComment(comment, element);
+          });
+    });
+  }
 };
 
 
@@ -173,4 +187,70 @@ got.task.listenDeleteEvents_ = function(element) {
       }
     });
   }
+};
+
+
+/**
+ * @param {Element} element Element of a task.
+ * @private
+ */
+got.task.listenEditEvents_ = function(element) {
+  var editEl = goog.dom.getElementByClass('task-edit', element);
+  if (editEl) {
+    goog.events.listen(editEl, goog.events.EventType.CLICK, function(e) {
+      got.task.toggleEditting_(element, true);
+    });
+  }
+  var cancelEl = goog.dom.getElementByClass('task-cancel', element);
+  if (cancelEl) {
+    goog.events.listen(cancelEl, goog.events.EventType.CLICK, function(e) {
+      got.task.toggleEditting_(element, false);
+    });
+  }
+  var saveEl = goog.dom.getElementByClass('task-save', element);
+  if (saveEl) {
+    goog.events.listen(saveEl, goog.events.EventType.CLICK, function(e) {
+      got.task.saveEditting_(element);
+    });
+  }
+};
+
+
+/**
+ * @param {Element} element Element of a task.
+ * @param {?Boolean} opt_isStart Flag if start or end.
+ * @private
+ */
+got.task.toggleEditting_ = function(element, opt_isStart) {
+  var mainEl = goog.dom.getElementByClass('got-taskitem-main', element);
+  var bodyEl = goog.dom.getElementByClass('got-taskitem-body', mainEl);
+  var mainEditEl =
+      goog.dom.getElementByClass('got-taskitem-main-edit', element);
+  var editBodyEl =
+      goog.dom.getElementsByTagNameAndClass('textarea', null, mainEditEl)[0];
+  editBodyEl.value = goog.dom.getTextContent(bodyEl);
+  goog.style.showElement(mainEl, !opt_isStart);
+  goog.style.showElement(mainEditEl, opt_isStart);
+  if (opt_isStart) {
+    editBodyEl.focus();
+  }
+};
+
+
+/**
+ * @param {Element} element Element of a task.
+ * @private
+ */
+got.task.saveEditting_ = function(element) {
+  var mainEl = goog.dom.getElementByClass('got-taskitem-main', element);
+  var mainEditEl =
+      goog.dom.getElementByClass('got-taskitem-main-edit', element);
+  var editBodyEl =
+      goog.dom.getElementsByTagNameAndClass('textarea', null, mainEditEl)[0];
+  var api = new got.Api();
+  api.update({'id': element['id'], 'body': editBodyEl.value}, function(task) {
+    var taskListEl = goog.dom.getElementByClass('task-list');
+    got.task.render(task, taskListEl);
+  });
+  goog.dom.removeNode(element);
 };

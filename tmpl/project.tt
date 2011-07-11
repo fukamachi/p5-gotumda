@@ -4,7 +4,7 @@
   Project #[% project %]
   <a id="watch-button" class="button[% IF watching %] watching[% END %]">[% IF watching %]Unwatch[% ELSE %]Watch[% END %]</a>
 </h2>
-<div id="got-project-tasks">
+<div id="got-project-tasks" class="task-list">
   Loading..
 </div>
 

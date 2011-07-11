@@ -1,6 +1,6 @@
 [% WRAPPER 'include/layout.tt' %]
 
-<div id="got-public-tasks">
+<div id="got-public-tasks" class="task-list">
   Loading..
 </div>
 

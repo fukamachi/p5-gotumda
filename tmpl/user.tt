@@ -1,7 +1,7 @@
 [% WRAPPER 'include/layout.tt' %]
 
 <h2>[% user %]'s Tasks</h2>
-<div id="got-task-list">
+<div id="got-task-list" class="task-list">
   Loading..
 </div>
 

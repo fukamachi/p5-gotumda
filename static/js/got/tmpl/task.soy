@@ -28,18 +28,29 @@
       {/if}
       <a href="/tasks/{$owner.name}">{$owner.name}</a>
     </div>
-    <div class="got-taskitem-body">
-      {$body|noAutoescape}
-    </div>
-    {if $login_user}
-      <div class="got-taskitem-manage">
-        {if $login_user == $owner.name or $login_user == $user.name}
-          <a class="task-edit">Edit</a>
-          <a class="task-delete">Delete</a>
-        {/if}
-        <a class="task-comment">Comment</a>
+    <div class="got-taskitem-main">
+      <div class="got-taskitem-body">
+        {$body|noAutoescape}
       </div>
-    {/if}
+      {if $login_user}
+        <div class="got-taskitem-manage">
+          {if $login_user == $owner.name or $login_user == $user.name}
+            <a class="task-edit">Edit</a>
+            <a class="task-delete">Delete</a>
+          {/if}
+          <a class="task-comment">Comment</a>
+        </div>
+      {/if}
+    </div>
+    <div class="got-taskitem-main-edit" style="display: none;">
+      <textarea name="body"></textarea>
+      {if $login_user}
+        <div class="got-taskitem-manage editting">
+          <a class="task-save">Save</a>
+          <a class="task-cancel">Cancel</a>
+        </div>
+      {/if}
+    </div>
     <div class="got-taskitem-comments">
       {foreach $cmt in $comments}
         {if $cmt.is_event == '0'}

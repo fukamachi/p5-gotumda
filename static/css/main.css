@@ -259,6 +259,15 @@ a.current {
   width: 380px;
 }
 
+.got-taskitem-main-edit textarea {
+  font-size: 14px;
+  outline: none;
+  border: 1px solid #ccc;
+  height: 46px;
+  width: 90%;
+  border-radius: 4px;
+}
+
 .got-taskitemline .got-taskitem-body {
   text-overflow: ellipsis;
   white-space: nowrap;
