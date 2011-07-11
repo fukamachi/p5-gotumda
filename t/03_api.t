@@ -16,7 +16,7 @@ test_psgi
     is $res->code, 200;
     diag $res->content if $res->code != 200;
 
-    $req = HTTP::Request->new( GET => 'http://localhost/api/my-tasks.json' );
+    $req = HTTP::Request->new( GET => 'http://localhost/api/tasks.json' );
     $res = $cb->($req);
     is $res->code,    400;
     is $res->content, '{"error":"Authorization required."}';
