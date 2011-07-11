@@ -100,7 +100,7 @@ post '/move.json' => sub {
     return $c->bad_request("Invalid task.") unless $task;
     return $c->permission_denied unless $task->has_permission;
 
-    $task->update( { owner_name => $c->current_user->name } );
+    $task->move();
 
     return $c->render_json( $task->to_hashref );
 };

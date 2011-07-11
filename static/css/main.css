@@ -336,6 +336,10 @@ a.current {
   font-size: small;
 }
 
+.got-taskitem-comments .got-taskitem-event {
+  color: gray;
+}
+
 .profile-image {
   width: 64px;
   height: 64px;

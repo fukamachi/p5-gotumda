@@ -18,7 +18,6 @@ sub to_hashref {
         user =>
             Gotumda::DB::Row::User::to_hashref( $user || $self->user_name ),
         created_at => $self->created_at->epoch,
-        updated_at => $self->updated_at->epoch,
     };
 }
 

@@ -33,11 +33,33 @@ sub to_hashref {
     };
 
     if ( $params{with_comments} ) {
-        my $iter = $c->db->search(
-            task_comment => { task_id => $self->id },
-            { order_by => { created_at => 'ASC' } }
+        my $iter = $c->db->search_named(
+            <<SQL
+            SELECT 0 as is_event, id, task_id, body, user_name, created_at
+            FROM task_comment WHERE task_id = :id
+            UNION
+            SELECT 1 as is_event, id, task_id, event, user_name, created_at
+            FROM task_event WHERE task_id = :id
+            ORDER BY created_at;
+SQL
+            , { id => $self->id }, 'task_comment'
         );
-        $result->{comments} = [ map { $_->to_hashref } $iter->all ];
+
+        # NOTE: Should this code be in DB::Row::TaskComment#to_hashref?
+        $result->{comments} = [];
+        while ( my $row = $iter->next ) {
+            my $hashref = $row->to_hashref;
+            $hashref->{is_event} = $row->is_event;
+            if ( $row->is_event ) {
+                if ( $row->body eq 'copy' ) {
+                    $hashref->{body} = 'Copied by ';
+                }
+                elsif ( $row->body eq 'move' ) {
+                    $hashref->{body} = 'Reassigned to ';
+                }
+            }
+            push @{ $result->{comments} }, $hashref;
+        }
     }
 
     return $result;
@@ -74,8 +96,20 @@ sub copy {
             is_done        => $self->is_done,
         }
     );
+    $self->insert_event('copy');
 
     return $c->db->single( task => { id => $id } );
+}
+
+sub move {
+    my ($self) = @_;
+
+    my $c = Amon2->context();
+
+    $self->update( { owner_name => $c->current_user->name } );
+    $self->insert_event('move');
+
+    return $self;
 }
 
 before 'update' => sub {
@@ -86,5 +120,21 @@ before 'update' => sub {
             ->db->delete( task_project => { task_id => $self->id } );
     }
 };
+
+sub insert_event {
+    my ( $self, $event, $user_name ) = @_;
+
+    my $c = Amon2->context();
+
+    $user_name ||= $c->current_user->name;
+
+    $c->db->fast_insert(
+        task_event => {
+            task_id   => $self->id,
+            event     => $event,
+            user_name => $user_name,
+        }
+    );
+}
 
 1;

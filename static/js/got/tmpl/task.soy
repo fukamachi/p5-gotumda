@@ -42,7 +42,11 @@
     {/if}
     <div class="got-taskitem-comments">
       {foreach $cmt in $comments}
-        {call .renderTaskComment data="$cmt" /}
+        {if $cmt.is_event == '0'}
+          {call .renderTaskComment data="$cmt" /}
+        {else}
+          {call .renderTaskEvent data="$cmt" /}
+        {/if}
       {/foreach}
       <form class="comment-form" onsubmit="return false;" style="display: none;">
         <input type="hidden" name="task_id" value="{$id}" />
@@ -90,5 +94,16 @@
 {template .renderTaskComment}
 <div class="got-taskitem-comment">
   <img src="{$user.thumbnail_url}" alt="{$user.name}" title="{$user.name}" /> {$body}
+</div>
+{/template}
+
+/**
+ * @param user
+ * @param body
+ */
+{template .renderTaskEvent}
+<div class="got-taskitem-event">
+  -- {$body}
+  {$user.name}
 </div>
 {/template}
