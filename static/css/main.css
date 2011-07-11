@@ -180,8 +180,8 @@ a.current {
   margin-bottom: 20px;
 }
 
-#got-post-task {
-  text-align: right;
+#got-post-form {
+  margin: 0 0 30px 15px;
 }
 
 #got-post-task textarea {
@@ -190,6 +190,7 @@ a.current {
 }
 
 #got-post-task input {
+  float: right;
   margin-right: 20px;
   width: 60px;
   height: 25px;
