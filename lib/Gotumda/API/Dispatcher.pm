@@ -16,7 +16,8 @@ get '/all-tasks.json' => sub {
 post '/update.json' => sub {
     my ($c) = @_;
 
-    return $c->redirect('/auth') unless $c->current_user;
+    return $c->bad_request('Authorization required.')
+        unless $c->current_user;
 
     my $task = $c->db->single( task => { id => $c->req->param('id') } );
 
@@ -60,9 +61,13 @@ post '/update.json' => sub {
 get '/tasks.json' => sub {
     my ($c) = @_;
 
-    my $user_name = $c->req->param('user') || $c->current_user->name;
+    my $user_name = $c->req->param('user');
 
-    return $c->redirect('/auth') unless $user_name;
+    unless ($user_name) {
+        return $c->bad_request('Authorization required.')
+            unless $c->current_user;
+        $user_name = $c->current_user->name;
+    }
 
     my @tasks = $c->db->search( task => { owner_name => $user_name } )->all;
 
