@@ -98,7 +98,6 @@ post '/move.json' => sub {
 
     # error
     return $c->bad_request("Invalid task.") unless $task;
-    return $c->permission_denied unless $task->has_permission;
 
     $task->move();
 
