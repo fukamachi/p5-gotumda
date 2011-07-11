@@ -41,7 +41,10 @@ __PACKAGE__->add_trigger(
     BEFORE_DISPATCH => sub {
         my ($c) = @_;
 
-        # ...
+        if ( $c->req->method eq 'POST' ) {
+            return $c->auth_required unless $c->current_user;
+        }
+
         return;
     },
 );
@@ -60,6 +63,22 @@ sub bad_request {
     $res->code(400);
 
     return $res;
+}
+
+sub forbidden {
+    my ( $c, $message ) = @_;
+    my $res = $c->render_json( { "error" => $message } );
+    $res->code(403);
+
+    return $res;
+}
+
+sub auth_required {
+    $_[0]->forbidden('Authorization required.');
+}
+
+sub permission_denied {
+    $_[0]->forbidden('Permission denied.');
 }
 
 1;

@@ -16,19 +16,15 @@ get '/all-tasks.json' => sub {
 post '/update.json' => sub {
     my ($c) = @_;
 
-    return $c->bad_request('Authorization required.')
-        unless $c->current_user;
-
-    my $task = $c->db->single( task => { id => $c->req->param('id') } );
-
-    return $c->bad_request("Permission denied.")
-        if $task and !$task->has_permission;
+    my $task;
 
     # modifies an exist task.
     if ( $c->req->param('id') ) {
         $task = $c->db->single( task => { id => $c->req->param('id') } );
 
-        return $c->bad_request('Invalid task id.') unless $task;
+        # error
+        return $c->bad_request('Invalid task.') unless $task;
+        return $c->permission_denied unless $task->has_permission;
 
         my %params;
         $params{id} = $c->req->param('id');
@@ -64,8 +60,7 @@ get '/tasks.json' => sub {
     my $user_name = $c->req->param('user');
 
     unless ($user_name) {
-        return $c->bad_request('Authorization required.')
-            unless $c->current_user;
+        return $c->auth_required unless $c->current_user;
         $user_name = $c->current_user->name;
     }
 
@@ -85,15 +80,11 @@ get '/tasks.json' => sub {
 post '/destroy.json' => sub {
     my ($c) = @_;
 
-    return $c->bad_request('Authorization required.')
-        unless $c->current_user;
-
     my $task = $c->db->single( task => { id => $c->req->param('id') } );
 
+    # error
     return $c->bad_request("Invalid task.") unless $task;
-
-    return $c->bad_request("Permission denied.")
-        unless $task->has_permission;
+    return $c->permission_denied unless $task->has_permission;
 
     $c->db->delete( task => { id => $c->req->param('id') } );
 
@@ -103,15 +94,11 @@ post '/destroy.json' => sub {
 post '/move.json' => sub {
     my ($c) = @_;
 
-    return $c->bad_request('Authorization required.')
-        unless $c->current_user;
-
     my $task = $c->db->single( task => { id => $c->req->param('id') } );
 
+    # error
     return $c->bad_request("Invalid task.") unless $task;
-
-    return $c->bad_request("Permission denied.")
-        unless $task->has_permission;
+    return $c->permission_denied unless $task->has_permission;
 
     $task->update( { owner_name => $c->current_user->name } );
 
@@ -121,13 +108,10 @@ post '/move.json' => sub {
 post '/copy.json' => sub {
     my ($c) = @_;
 
-    return $c->bad_request('Authorization required.')
-        unless $c->current_user;
-
-    return $c->bad_request("'id' is a required parameter.")
-        unless $c->req->param('id');
-
     my $task = $c->db->single( task => { id => $c->req->param('id') } );
+
+    # error
+    $c->bad_request('Invalid task.') unless $task;
 
     my $new_task = $task->copy();
 
@@ -136,9 +120,6 @@ post '/copy.json' => sub {
 
 post '/sort-tasks.json' => sub {
     my ($c) = @_;
-
-    return $c->bad_request('Authorization required.')
-        unless $c->current_user;
 
     my $order = $c->db->find_or_create(
         sort_order => { user_name => $c->current_user->name } );
@@ -151,8 +132,7 @@ post '/sort-tasks.json' => sub {
 get '/watch-projects.json' => sub {
     my ($c) = @_;
 
-    return $c->bad_request('Authorization required.')
-        unless $c->current_user;
+    return $c->auth_required unless $c->current_user;
 
     my $iter = $c->db->search(
         watch_project => { user_name => $c->current_user->name } );
@@ -178,9 +158,6 @@ get '/project.json' => sub {
 post '/watch-project.json' => sub {
     my ($c) = @_;
 
-    return $c->bad_request('Authorization required.')
-        unless $c->current_user;
-
     my $meth
         = $c->req->param('is_watch') eq 'true'
         ? 'find_or_create'
@@ -198,9 +175,6 @@ post '/watch-project.json' => sub {
 
 post '/task-comment.json' => sub {
     my ($c) = @_;
-
-    return $c->bad_request('Authorization required.')
-        unless $c->current_user;
 
     my $comment = $c->db->insert(
         task_comment => {
