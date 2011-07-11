@@ -97,13 +97,13 @@ h2 {
  **/
 
 #content {
-  height: 800px;
+  min-height: 800px;
   background-color: white;
   position: relative;
 }
 
 #content-left {
-  float: left;
+  position: absolute;
   background-color: rgb(228,236,246);
   border: 1px solid rgb(177,197,218);
   width: 188px;
@@ -157,10 +157,10 @@ a.current {
 }
 
 #content-right {
-  float: left;
   width: 530px;
   height: 100%;
   padding: 15px 0 0 35px;
+  margin-left: 188px;
 }
 
 #got-post-button {
