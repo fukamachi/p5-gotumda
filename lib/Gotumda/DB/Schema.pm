@@ -46,4 +46,12 @@ table {
     columns qw(user_name sort_order);
 };
 
+table {
+    name 'task_event';
+    pk 'id';
+    columns qw(id task_id event user_name created_at);
+    inflate created_at => sub { Time::Piece->new(shift) };
+    deflate created_at => sub { Time::Piece->new(shift)->epoch };
+};
+
 1;

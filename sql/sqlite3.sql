@@ -65,3 +65,19 @@ AFTER DELETE ON task FOR EACH ROW
 BEGIN
     DELETE FROM task_project WHERE OLD.id = task_project.task_id;
 END;
+
+CREATE TABLE task_event (
+    id INTEGER NOT NULL PRIMARY KEY,
+    task_id INTEGER NOT NULL,
+    event varchar(64) NOT NULL,
+    user_name varchar(64),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(task_id) REFERENCES task(id)
+);
+CREATE INDEX index_task_event ON task_event(task_id, created_at);
+
+CREATE TRIGGER delete_task_event
+AFTER DELETE ON task FOR EACH ROW
+BEGIN
+    DELETE FROM task_event WHERE OLD.id = task_event.task_id;
+END;

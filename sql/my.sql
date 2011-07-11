@@ -49,3 +49,13 @@ CREATE TABLE IF NOT EXISTS sort_order (
     FOREIGN KEY(user_name) REFERENCES user(name)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 CREATE INDEX index_sort_order ON sort_order(user_name);
+
+CREATE TABLE IF NOT EXISTS task_event (
+    id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    task_id INTEGER NOT NULL,
+    event varchar(64) NOT NULL,
+    user_name varchar(64),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(task_id) REFERENCES task(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE INDEX index_task_event ON task_event(task_id, created_at);
