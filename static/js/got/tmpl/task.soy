@@ -7,7 +7,7 @@
  * @param body
  * @param is_done
  * @param comments
- * @param is_logined
+ * @param login_user
  */
 {template .render}
 <div id="{$id}" class="got-taskitem{if $is_done} done-task{/if}">
@@ -31,10 +31,12 @@
     <div class="got-taskitem-body">
       {$body|noAutoescape}
     </div>
-    {if $is_logined}
+    {if $login_user}
       <div class="got-taskitem-manage">
-        <a class="task-edit">Edit</a>
-        <a class="task-delete">Delete</a>
+        {if $login_user == $owner.name or $login_user == $user.name}
+          <a class="task-edit">Edit</a>
+          <a class="task-delete">Delete</a>
+        {/if}
         <a class="task-comment">Comment</a>
       </div>
     {/if}
@@ -48,10 +50,12 @@
       </form>
     </div>
   </div>
-  {if $is_logined}
+  {if $login_user}
     <div class="got-taskitem-action">
-      <a class="button" title="Copy this task and put it into 'My Tasks'."><img src="/static/img/copy.png" alt="Copy" /></a>
-      <a class="button" title="Get and move this task to 'My Tasks'."><img src="/static/img/get.png" alt="Get" /></a>
+      <a class="action-copy button" title="Copy this task and put it into 'My Tasks'."><img src="/static/img/copy.png" alt="Copy" /></a>
+      {if $login_user != $owner.name}
+        <a class="action-get button" title="Get and move this task to 'My Tasks'."><img src="/static/img/get.png" alt="Get" /></a>
+      {/if}
     </div>
   {/if}
 </div>
@@ -63,11 +67,11 @@
  * @param is_done
  * @param user
  * @param owner
- * @param is_logined
+ * @param login_user
  */
 {template .renderLine}
 <div id="{$id}" class="got-taskitemline">
-  {if $is_logined}
+  {if $login_user}
     <input class="got-taskitem-done" type="checkbox"{if $is_done} checked="true"{/if} />
   {/if}
   <div class="got-taskitem-body" title="{$body}">

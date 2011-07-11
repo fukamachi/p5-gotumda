@@ -301,6 +301,7 @@ a.current {
   top: 25px;
   right: 10px;
   font-size: x-small;
+  width: 56px;
 }
 
 .got-taskitem-action a {

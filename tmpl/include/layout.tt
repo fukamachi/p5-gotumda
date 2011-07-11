@@ -41,7 +41,7 @@
 
 </div>
 <script type="text/javascript">
-  got.IS_LOGINED = [% IF current_user() %]true[% ELSE %]false[% END %];
+  got.LOGIN_USER = '[% IF current_user() %][% current_user().name %][% END %]';
 </script>
 </body>
 </html>

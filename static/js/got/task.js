@@ -33,7 +33,7 @@ got.task.render = function(task, element) {
       task,
       {
         'body': got.task.parseBody_(task['body']),
-        'is_logined': got.IS_LOGINED
+        'login_user': got.LOGIN_USER
       });
 
   var taskEl = goog.dom.htmlToDocumentFragment(got.tmpl.task.render(task));
@@ -54,7 +54,7 @@ got.task.render = function(task, element) {
 got.task.renderLine = function(task, element) {
   element = goog.dom.getElement(element);
 
-  goog.object.extend(task, {'is_logined': got.IS_LOGINED});
+  goog.object.extend(task, {'login_user': got.LOGIN_USER});
 
   var taskEl = goog.dom.htmlToDocumentFragment(got.tmpl.task.renderLine(task));
 
@@ -98,28 +98,32 @@ got.task.listenTaskAction_ = function(element) {
   var actionEl = goog.dom.getElementByClass('got-taskitem-action', element);
   var api = new got.Api();
   // Copy button.
-  var copyEl = actionEl.childNodes[0];
-  goog.events.listen(
-      copyEl, goog.events.EventType.CLICK,
-      function(e) {
-        if (confirm(copyEl.title)) {
-          api.copy(element['id'], function(res) {
-            got.task.render(res, 'got-public-tasks');
-          });
-        }
-      });
+  var copyEl = goog.dom.getElementByClass('action-copy', actionEl);
+  if (copyEl) {
+    goog.events.listen(
+        copyEl, goog.events.EventType.CLICK,
+        function(e) {
+          if (confirm(copyEl.title)) {
+            api.copy(element['id'], function(res) {
+              got.task.render(res, 'got-public-tasks');
+            });
+          }
+        });
+  }
   // Get button.
-  var getEl = actionEl.childNodes[1];
-  goog.events.listen(
-      getEl, goog.events.EventType.CLICK,
-      function(e) {
-        if (confirm(getEl.title)) {
-          api.move(element['id'], function(res) {
-            goog.dom.removeNode(element);
-            got.task.render(res, 'got-public-tasks');
-          });
-        }
-      });
+  var getEl = goog.dom.getElementByClass('action-get', actionEl);
+  if (getEl) {
+    goog.events.listen(
+        getEl, goog.events.EventType.CLICK,
+        function(e) {
+          if (confirm(getEl.title)) {
+            api.move(element['id'], function(res) {
+              goog.dom.removeNode(element);
+              got.task.render(res, 'got-public-tasks');
+            });
+          }
+        });
+  }
 };
 
 
@@ -156,15 +160,17 @@ got.task.listenCommentEvents_ = function(element) {
 got.task.listenDeleteEvents_ = function(element) {
   var linkEl =
       goog.dom.getElementByClass('task-delete', element);
-  var bodyEl =
-      goog.dom.getElementByClass('got-taskitem-body', element);
-  goog.events.listen(linkEl, goog.events.EventType.CLICK, function(e) {
-    var api = new got.Api();
-    if (confirm('Are you sure you want to permanently delete "' +
-                goog.dom.getTextContent(bodyEl) + '"?')) {
-      api.destroy(element['id'], function() {
-        goog.dom.removeNode(element);
-      });
-    }
-  });
+  if (linkEl) {
+    var bodyEl =
+        goog.dom.getElementByClass('got-taskitem-body', element);
+    goog.events.listen(linkEl, goog.events.EventType.CLICK, function(e) {
+      var api = new got.Api();
+      if (confirm('Are you sure you want to permanently delete "' +
+                  goog.dom.getTextContent(bodyEl) + '"?')) {
+        api.destroy(element['id'], function() {
+          goog.dom.removeNode(element);
+        });
+      }
+    });
+  }
 };

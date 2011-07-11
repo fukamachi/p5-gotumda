@@ -54,7 +54,7 @@ got.app.Tasks.prototype.loadTasks = function() {
             got.task.renderLine(task, curEl);
           }
         });
-        if (got.IS_LOGINED) {
+        if (got.LOGIN_USER) {
           this.listenDragEvents(curEl);
           this.listenCheckEvents();
         }
