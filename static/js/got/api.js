@@ -69,8 +69,8 @@ got.Api.prototype.projectTasks = function(projectName, callback) {
  * @param {Function(Array.<Object>)} callback Callback function
  *   recieves a list of project objects.
  */
-got.Api.prototype.myProjects = function(callback) {
-  this.sendRequest('api/my-projects.json', 'GET', null, callback);
+got.Api.prototype.watchProjects = function(callback) {
+  this.sendRequest('api/watch-projects.json', 'GET', null, callback);
 };
 
 

@@ -33,8 +33,8 @@ got.app.PC = function(opt_baseUri) {
    */
   this.api = new got.Api(opt_baseUri);
 
-  if (goog.dom.getElement('my-projects')) {
-    this.loadMyProjects();
+  if (goog.dom.getElement('watch-projects')) {
+    this.loadWatchProjects();
   }
 
   if (goog.dom.getElement('got-post-button')) {
@@ -46,9 +46,9 @@ got.app.PC = function(opt_baseUri) {
 /**
  * @protected
  */
-got.app.PC.prototype.loadMyProjects = function() {
-  this.api.myProjects(function(projects) {
-    var element = goog.dom.getElement('my-projects');
+got.app.PC.prototype.loadWatchProjects = function() {
+  this.api.watchProjects(function(projects) {
+    var element = goog.dom.getElement('watch-projects');
     element.innerHTML = '';
     goog.array.forEach(projects, function(project) {
       var a =

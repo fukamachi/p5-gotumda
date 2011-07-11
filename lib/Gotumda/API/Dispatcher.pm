@@ -143,7 +143,7 @@ post '/sort-tasks.json' => sub {
     return $c->no_content;
 };
 
-get '/my-projects.json' => sub {
+get '/watch-projects.json' => sub {
     my ($c) = @_;
 
     return $c->bad_request('Authorization required.')

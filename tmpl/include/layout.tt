@@ -29,7 +29,7 @@
       <div class="count">[% my_tasks_num() %]</div>
     </a>
     <hr />
-    <div id="my-projects">
+    <div id="watch-projects">
     </div>
     [% END %]
   </div>
