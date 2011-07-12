@@ -397,6 +397,7 @@ a.button:hover {
   color: #005585;
   padding: 3px 8px;
   font-size: x-small;
+  margin-top: 10px;
 }
 
 .got-cont-pager:hover {
