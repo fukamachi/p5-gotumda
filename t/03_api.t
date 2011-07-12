@@ -21,7 +21,7 @@ test_psgi
     # My Tasks
     $req = HTTP::Request->new( GET => 'http://localhost/api/tasks.json' );
     $res = $cb->($req);
-    is $res->code,    403;
+    is $res->code,    401;
     is $res->content, '{"error":"Authorization required."}';
 
     # User's tasks

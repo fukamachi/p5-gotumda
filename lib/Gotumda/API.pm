@@ -49,32 +49,36 @@ __PACKAGE__->add_trigger(
     },
 );
 
-sub no_content {
-    my ($c) = @_;
-    my $res = $c->render_json( {} );
-    $res->code(204);
+sub _create_response {
+    my ( $c, $status, $message ) = @_;
+    my $res = $c->render_json( $message ? { error => $message } : {} );
+    $res->code($status);
 
     return $res;
+}
+
+sub no_content {
+    my ($c) = @_;
+
+    return $c->_create_response(204);
 }
 
 sub bad_request {
     my ( $c, $message ) = @_;
-    my $res = $c->render_json( { "error" => $message } );
-    $res->code(400);
 
-    return $res;
+    return $c->_create_response( 400, $message );
 }
 
 sub forbidden {
     my ( $c, $message ) = @_;
-    my $res = $c->render_json( { "error" => $message } );
-    $res->code(403);
 
-    return $res;
+    return $c->_create_response( 403, $message );
 }
 
 sub auth_required {
-    $_[0]->forbidden('Authorization required.');
+    my ($c) = @_;
+
+    return $c->_create_response( 401, 'Authorization required.' );
 }
 
 sub permission_denied {
