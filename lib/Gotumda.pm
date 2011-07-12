@@ -7,7 +7,7 @@ use 5.008001;
 
 sub current_user {
     my ( $c, $user ) = @_;
-    $c->session->set( 'user', $user ) if $user;
+    $c->session->set( 'user', $user ) if @_ >= 2;
 
     return $c->session->get('user');
 }

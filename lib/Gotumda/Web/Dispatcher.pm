@@ -70,4 +70,12 @@ any '/auth' => sub {
     return $c->redirect( $api->uri_to_login->as_string );
 };
 
+get '/logout' => sub {
+    my ($c) = @_;
+
+    $c->current_user(undef);
+
+    $c->redirect('/');
+};
+
 1;
