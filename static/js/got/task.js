@@ -22,6 +22,7 @@ goog.require('got.tmpl.task');
  * Render this task into the specified element.
  * @param {Object} task JSON object of task.
  * @param {Element|String} opt_element Where to render.
+ * @param {Boolean} opt_isAppend Flag if append last or insert to first.
  * @return {Element} New task element.
  */
 got.task.render = function(task, opt_element, opt_isAppend) {
@@ -131,6 +132,7 @@ got.task.listenTaskAction_ = function(element) {
         function(e) {
           if (confirm(getEl.title)) {
             api.move(element['id'], function(res) {
+              // TODO: create a method to replace tasks.
               var taskEl = got.task.render(res);
               goog.dom.replaceNode(taskEl, element);
               got.app.pc.instance.refreshMyTasksCount();
@@ -252,8 +254,10 @@ got.task.saveEditting_ = function(element) {
   var editBodyEl =
       goog.dom.getElementsByTagNameAndClass('textarea', null, mainEditEl)[0];
   var api = new got.Api();
-  api.update({'id': element['id'], 'body': editBodyEl.value},
-             got.app.pc.onAfterCreate);
-  goog.dom.removeNode(element);
-  got.app.pc.instance.refreshMyTasksCount();
+  api.update({'id': element['id'], 'body': editBodyEl.value}, function(task) {
+    // TODO: create a method to replace tasks.
+    var taskEl = got.task.render(task);
+    goog.dom.replaceNode(taskEl, element);
+    got.app.pc.instance.refreshMyTasksCount();
+  });
 };
