@@ -34,9 +34,12 @@ got.Api = function(opt_baseUri) {
  * Get all tasks for public timeline.
  * @param {Function(Array.<Object>)} callback Callback function
  *   receives an array contains task objects.
+ * @param {Integer=} opt_page Page number.
  */
-got.Api.prototype.allTasks = function(callback) {
-  this.sendRequest('api/all-tasks.json', 'GET', null, callback);
+got.Api.prototype.allTasks = function(callback, opt_page) {
+  opt_page = opt_page || 0;
+  this.sendRequest('api/all-tasks.json?page=' + opt_page, 'GET',
+                   null, callback);
 };
 
 

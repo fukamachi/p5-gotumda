@@ -388,3 +388,18 @@ a.button:hover {
 #watch-button {
   float: right;
 }
+
+.got-cont-pager {
+  display: block;
+  cursor: pointer;
+  background-color: rgb(228,236,246);
+  border: 1px solid rgb(177,197,218);
+  color: #005585;
+  padding: 3px 8px;
+  font-size: x-small;
+}
+
+.got-cont-pager:hover {
+  color: #005585;
+  background-color: rgb(177,197,218);
+}

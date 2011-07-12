@@ -4,6 +4,7 @@ use Mouse;
 
 __PACKAGE__->load_plugin('FindOrCreate');
 __PACKAGE__->load_plugin('Count');
+__PACKAGE__->load_plugin('Pager');
 
 around [qw(insert update)] => sub {
     my ( $orig, $self, $table_name, $row_data, $other ) = @_;

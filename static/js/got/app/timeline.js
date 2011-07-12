@@ -15,6 +15,7 @@ goog.require('goog.events');
 goog.require('goog.style');
 goog.require('got.app.PC');
 goog.require('got.task');
+goog.require('got.ui.ContinuousPager');
 
 
 
@@ -47,8 +48,15 @@ got.app.Timeline.prototype.loadPublicTasks = function() {
         var element = goog.dom.getElement('got-public-tasks');
         element.innerHTML = '';
         goog.array.forEach(tasks, function(task) {
-          got.task.render(task, element);
+          got.task.render(task, element, true);
         });
+        var pager = new got.ui.ContinuousPager(function(tasks) {
+          goog.array.forEach(tasks, function(task) {
+            var taskEl = got.task.render(task);
+            element.appendChild(taskEl);
+          });
+        });
+        pager.render(element);
       }, this));
 };
 

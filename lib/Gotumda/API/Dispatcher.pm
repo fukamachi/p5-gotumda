@@ -5,12 +5,17 @@ use Amon2::Web::Dispatcher::Lite;
 
 get '/all-tasks.json' => sub {
     my ($c) = @_;
-    my $iter = $c->db->search(
+    my $page = $c->req->param('page') || 0;
+
+    my ( $rows, $pager ) = $c->db->search_with_pager(
         task => {},
-        { order_by => { created_at => 'ASC' } },
+        {   order_by => { created_at => 'DESC' },
+            page     => $page + 1,
+            rows     => 20
+        },
     );
 
-    return $c->render_json( [ map { $_->to_hashref } $iter->all ] );
+    return $c->render_json( [ map { $_->to_hashref } @$rows ] );
 };
 
 post '/update.json' => sub {

@@ -24,7 +24,7 @@ goog.require('got.tmpl.task');
  * @param {Element|String} opt_element Where to render.
  * @return {Element} New task element.
  */
-got.task.render = function(task, opt_element) {
+got.task.render = function(task, opt_element, opt_isAppend) {
   goog.object.extend(
       task,
       {
@@ -36,7 +36,11 @@ got.task.render = function(task, opt_element) {
 
   if (opt_element) {
     var element = goog.dom.getElement(opt_element);
-    goog.dom.insertChildAt(element, taskEl, 0);
+    if (opt_isAppend) {
+      element.appendChild(taskEl);
+    } else {
+      goog.dom.insertChildAt(element, taskEl, 0);
+    }
   }
 
   got.task.listenEvents_(taskEl);

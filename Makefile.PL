@@ -18,6 +18,7 @@ WriteMakefile(
                 Teng
                 Teng::Plugin::FindOrCreate
                 Teng::Plugin::Count
+                Teng::Plugin::Pager
                 Hatena::API::Auth
                 Mouse
                 )
