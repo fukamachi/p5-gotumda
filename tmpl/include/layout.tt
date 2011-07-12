@@ -23,9 +23,9 @@
 
 <div id="content">
   <div id="content-left">
-    <a href="[% uri_for('/') %]"[% IF path_info() == '/' %] class="current"[% END %]>Timeline</a>
+    <a href="[% uri_for('/') %]" class="public-timeline[% IF path_info() == '/' %] current[% END %]">Timeline</a>
     [% IF current_user() %]
-    <a href="[% uri_for('/tasks') %]"[% IF path_info() == '/tasks' %] class="current"[% END %]>My Tasks
+    <a href="[% uri_for('/tasks') %]" class="my-tasks[% IF path_info() == '/tasks' %] current[% END %]">My Tasks
       <div class="count">[% my_tasks_num() %]</div>
     </a>
     <hr />

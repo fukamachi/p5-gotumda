@@ -152,3 +152,15 @@ got.app.Tasks.prototype.listenCheckEvents = function() {
                        this.onCheck_, false, this);
   }, this);
 };
+
+
+/**
+ * @param {Object} task JSON of a new task.
+ * @override
+ */
+got.app.Tasks.prototype.onAfterCreate = function(task) {
+  if (task['owner']['name'] === got.LOGIN_USER) {
+    got.task.renderLine(task, 'got-current-tasks');
+  }
+  got.app.Tasks.superClass_.onAfterCreate.call(this, task);
+};

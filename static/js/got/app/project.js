@@ -65,6 +65,18 @@ got.app.Project.prototype.loadProjectTasks = function() {
 
 
 /**
+ * @param {Object} task JSON of a new task.
+ * @override
+ */
+got.app.Project.prototype.onAfterCreate = function(task) {
+  if (task['body'].match('#' + got.app.Project.getProject_())) {
+    got.task.render(task, this.element);
+  }
+  got.app.Project.superClass_.onAfterCreate.call(this, task);
+};
+
+
+/**
  * @private
  * @return {String} Project name.
  */

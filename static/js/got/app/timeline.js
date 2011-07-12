@@ -51,3 +51,12 @@ got.app.Timeline.prototype.loadPublicTasks = function() {
         });
       }, this));
 };
+
+
+/**
+ * @param {Object} task JSON of a new task.
+ */
+got.app.Timeline.prototype.onAfterCreate = function(task) {
+  got.task.render(task, this.element);
+  got.app.Timeline.superClass_.onAfterCreate.call(this, task);
+};

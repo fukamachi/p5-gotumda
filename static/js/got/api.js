@@ -42,13 +42,25 @@ got.Api.prototype.allTasks = function(callback) {
 
 /**
  * Get tasks of specified user's.
- * @param {String} userName Which user's tasks.
+ * @param {?String} userName Which user's tasks.
  * @param {Function(Array.<Object>)} callback Callback function
  *   receives an array contains task objects.
  */
 got.Api.prototype.tasks = function(userName, callback) {
   this.sendRequest('api/tasks.json?user=' + (userName || ''),
                    'GET', null, callback);
+};
+
+
+/**
+ * Get a number of tasks of specified user's.
+ * @param {?String} userName Which user's tasks.
+ * @param {Function(Number)} callback Callback function
+ *   receives a count.
+ */
+got.Api.prototype.taskCount = function(userName, callback) {
+  this.sendRequest('api/task-count.json?user=' + (userName || ''),
+                   'GET', null, function(res) { callback(res['count']); });
 };
 
 

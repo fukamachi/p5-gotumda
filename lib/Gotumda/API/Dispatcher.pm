@@ -37,6 +37,8 @@ post '/update.json' => sub {
         }
 
         $task->update( \%params );
+
+        $task = $c->db->single( task => { id => $task->id } );
     }
 
     # insert a new task.
@@ -74,6 +76,27 @@ get '/tasks.json' => sub {
         [   map { $_->to_hashref() }
                 $order ? $order->sort_tasks( \@tasks ) : @tasks
         ]
+    );
+};
+
+get '/task-count.json' => sub {
+    my ($c) = @_;
+
+    my $user_name = $c->req->param('user');
+
+    unless ($user_name) {
+        return $c->auth_required unless $c->current_user;
+        $user_name = $c->current_user->name;
+    }
+
+    return $c->render_json(
+        {   count => $c->db->count(
+                'task', 'id',
+                {   owner_name => $user_name,
+                    is_done    => undef,
+                }
+            )
+        }
     );
 };
 

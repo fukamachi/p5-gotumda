@@ -20,6 +20,22 @@ goog.require('got.Api');
 goog.require('got.task');
 
 
+/**
+ * @type {got.app.PC}
+ */
+got.app.pc.instance = null;
+
+
+/**
+ * @param {Object} task JSON of a new task.
+ */
+got.app.pc.onAfterCreate = function(task) {
+  (goog.bind(
+      got.app.pc.instance.onAfterCreate,
+      got.app.pc.instance))(task);
+};
+
+
 
 /**
  * Class for PC frontend.
@@ -40,6 +56,8 @@ got.app.PC = function(opt_baseUri) {
   if (goog.dom.getElement('got-post-button')) {
     this.listenPostButton();
   }
+
+  got.app.pc.instance = this;
 };
 
 
@@ -69,6 +87,29 @@ got.app.PC.prototype.loadWatchProjects = function() {
 
 
 /**
+ * Refresh a count of My Tasks.
+ */
+got.app.PC.prototype.refreshMyTasksCount = function() {
+  var myTasksNav =
+      goog.dom.getElementByClass(
+          'my-tasks', goog.dom.getElement('content-left'));
+  var count = goog.dom.getElementByClass('count', myTasksNav);
+  this.api.taskCount(null, function(num) { count.innerHTML = num; });
+};
+
+
+/**
+ * @param {Object} task JSON of a new task.
+ */
+got.app.PC.prototype.onAfterCreate = function(task) {
+  if (task['owner']['name'] === got.LOGIN_USER) {
+    this.refreshMyTasksCount();
+  }
+  this.loadWatchProjects();
+};
+
+
+/**
  * Event handler fired on submit a form to create a new task.
  * @param {goog.events.BrowserEvent} e Event object.
  * @private
@@ -78,11 +119,8 @@ got.app.PC.prototype.onSubmit_ = function(e) {
   var textarea =
       goog.dom.getElementsByTagNameAndClass('textarea', null, form)[0];
   this.api.update(
-      goog.dom.forms.getFormDataMap(form).toObject(), function(res) {
-        if (goog.dom.getElement('got-public-tasks')) {
-          got.task.render(res, 'got-public-tasks');
-        }
-      });
+      goog.dom.forms.getFormDataMap(form).toObject(),
+      got.app.pc.onAfterCreate);
   textarea.value = '';
 };
 

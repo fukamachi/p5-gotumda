@@ -14,21 +14,17 @@ goog.require('goog.json');
 goog.require('goog.object');
 goog.require('goog.string');
 goog.require('got.Api');
+goog.require('got.app.pc');
 goog.require('got.tmpl.task');
 
 
 /**
  * Render this task into the specified element.
  * @param {Object} task JSON object of task.
- * @param {Element|String} element Where to render.
+ * @param {Element|String} opt_element Where to render.
+ * @return {Element} New task element.
  */
-got.task.render = function(task, element) {
-  /**
-   * @type {Element}
-   * @protected
-   */
-  element = goog.dom.getElement(element);
-
+got.task.render = function(task, opt_element) {
   goog.object.extend(
       task,
       {
@@ -38,9 +34,14 @@ got.task.render = function(task, element) {
 
   var taskEl = goog.dom.htmlToDocumentFragment(got.tmpl.task.render(task));
 
-  goog.dom.insertChildAt(element, taskEl, 0);
+  if (opt_element) {
+    var element = goog.dom.getElement(opt_element);
+    goog.dom.insertChildAt(element, taskEl, 0);
+  }
 
   got.task.listenEvents_(taskEl);
+
+  return taskEl;
 };
 
 
@@ -114,9 +115,7 @@ got.task.listenTaskAction_ = function(element) {
         copyEl, goog.events.EventType.CLICK,
         function(e) {
           if (confirm(copyEl.title)) {
-            api.copy(element['id'], function(res) {
-              got.task.render(res, 'got-public-tasks');
-            });
+            api.copy(element['id'], got.app.pc.onAfterCreate);
           }
         });
   }
@@ -128,8 +127,9 @@ got.task.listenTaskAction_ = function(element) {
         function(e) {
           if (confirm(getEl.title)) {
             api.move(element['id'], function(res) {
-              goog.dom.removeNode(element);
-              got.task.render(res, 'got-public-tasks');
+              var taskEl = got.task.render(res);
+              goog.dom.replaceNode(taskEl, element);
+              got.app.pc.instance.refreshMyTasksCount();
             });
           }
         });
@@ -248,9 +248,8 @@ got.task.saveEditting_ = function(element) {
   var editBodyEl =
       goog.dom.getElementsByTagNameAndClass('textarea', null, mainEditEl)[0];
   var api = new got.Api();
-  api.update({'id': element['id'], 'body': editBodyEl.value}, function(task) {
-    var taskListEl = goog.dom.getElementByClass('task-list');
-    got.task.render(task, taskListEl);
-  });
+  api.update({'id': element['id'], 'body': editBodyEl.value},
+             got.app.pc.onAfterCreate);
   goog.dom.removeNode(element);
+  got.app.pc.instance.refreshMyTasksCount();
 };
