@@ -57,7 +57,22 @@ got.app.Timeline.prototype.loadPublicTasks = function() {
           });
         });
         pager.render(element);
+        goog.events.listen(document, goog.events.EventType.SCROLL, function(e) {
+          if (this.isEndOfDocument_()) {
+            goog.events.dispatchEvent(pager, 'click');
+          }
+        }, false, this);
       }, this));
+};
+
+
+/**
+ * @private
+ * @return {Boolean} If the scroll bar is the end or not.
+ */
+got.app.Timeline.prototype.isEndOfDocument_ = function() {
+  return goog.dom.getDocumentHeight() ===
+      (goog.dom.getDocumentScroll().y + goog.dom.getViewportSize().height);
 };
 
 

@@ -65,7 +65,10 @@ got.ui.ContinuousPager.prototype.onClick = function(e) {
  */
 got.ui.ContinuousPager.prototype.createDom = function() {
   var el = goog.dom.createDom('a', 'got-cont-pager', 'Older Tasks');
-  goog.events.listen(el, goog.events.EventType.CLICK,
+  goog.events.listen(el, goog.events.EventType.CLICK, function(e) {
+    goog.events.dispatchEvent(this, e);
+  }, false, this);
+  goog.events.listen(this, goog.events.EventType.CLICK,
                      this.onClick, false, this);
   this.setElementInternal(el);
 };
