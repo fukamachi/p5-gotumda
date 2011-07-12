@@ -26,12 +26,3 @@ DELIMITER |
         SET NEW.updated_at = CURRENT_TIMESTAMP;
     END
 |
-DELIMITER |
-    CREATE TRIGGER delete_task_children
-    BEFORE DELETE ON task FOR EACH ROW
-    BEGIN
-        DELETE FROM task_comment WHERE OLD.id = task_comment.task_id;
-        DELETE FROM task_project WHERE OLD.id = task_project.task_id;
-        DELETE FROM task_event WHERE OLD.id = task_event.task_id;
-    END
-|

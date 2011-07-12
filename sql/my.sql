@@ -13,7 +13,6 @@ CREATE TABLE IF NOT EXISTS task (
     is_done BOOLEAN,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP,
-    FOREIGN KEY(origin_task_id) REFERENCES task(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 CREATE INDEX index_task_on_owner_name ON task (owner_name);
 
@@ -24,7 +23,7 @@ CREATE TABLE IF NOT EXISTS task_comment (
     user_name varchar(64),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP,
-    FOREIGN KEY(task_id) REFERENCES task(id),
+    FOREIGN KEY(task_id) REFERENCES task(id) ON DELETE CASCADE,
     FOREIGN KEY(user_name) REFERENCES user(name)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 CREATE INDEX index_task_comment_on_task_id ON task_comment (task_id);
@@ -39,7 +38,7 @@ CREATE INDEX index_watch_project ON watch_project (user_name);
 CREATE TABLE IF NOT EXISTS task_project (
     project varchar(255),
     task_id INTEGER NOT NULL,
-    FOREIGN KEY(task_id) REFERENCES task(id)
+    FOREIGN KEY(task_id) REFERENCES task(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 CREATE INDEX index_task_project ON task_project(project);
 
@@ -56,6 +55,6 @@ CREATE TABLE IF NOT EXISTS task_event (
     event varchar(64) NOT NULL,
     user_name varchar(64),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY(task_id) REFERENCES task(id)
+    FOREIGN KEY(task_id) REFERENCES task(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 CREATE INDEX index_task_event ON task_event(task_id, created_at);
