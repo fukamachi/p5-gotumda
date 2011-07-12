@@ -17,7 +17,6 @@ goog.require('goog.events');
 goog.require('goog.style');
 goog.require('goog.uri.utils');
 goog.require('got.Api');
-goog.require('got.task');
 
 
 /**
